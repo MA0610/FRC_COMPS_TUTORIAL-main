@@ -1,0 +1,96 @@
+.tutorialCard {
+  background: white;
+  border-radius: 20px;
+  padding: 24px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.tutorialCard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.cardIcon {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  padding: 12px;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+}
+
+.cardStats {
+  text-align: right;
+}
+
+.statsNumber {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1f2937;
+  line-height: 1;
+}
+
+.statsLabel {
+  font-size: 0.8rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.cardTitle {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 8px;
+}
+
+.cardDescription {
+  color: #6b7280;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.cardFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.lessonCount {
+  font-size: 0.85rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.completeBadge {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  box-shadow: 0 2px 10px rgba(16, 185, 129, 0.3);
+}
+
+.trophyIcon {
+  width: 14px;
+  height: 14px;
+}

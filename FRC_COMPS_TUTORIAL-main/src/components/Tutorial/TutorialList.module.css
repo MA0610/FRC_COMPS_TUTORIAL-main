@@ -1,0 +1,365 @@
+/* src/components/Tutorial/TutorialList.module.css */
+
+.tutorialList {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Tutorial Card Styles */
+.tutorialCard {
+  background: white;
+  border-radius: 20px;
+  padding: 24px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.tutorialCard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.cardIcon {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  padding: 12px;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+}
+
+.cardStats {
+  text-align: right;
+}
+
+.statsNumber {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1f2937;
+  line-height: 1;
+}
+
+.statsLabel {
+  font-size: 0.8rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.cardTitle {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 8px;
+}
+
+.cardDescription {
+  color: #6b7280;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.cardFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.lessonCount {
+  font-size: 0.85rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.completeBadge {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  box-shadow: 0 2px 10px rgba(16, 185, 129, 0.3);
+}
+
+.trophyIcon {
+  width: 14px;
+  height: 14px;
+}
+
+/* Overall Progress Section */
+.overallProgress {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 24px;
+  padding: 32px;
+  margin-bottom: 32px;
+  color: white;
+  box-shadow: 0 20px 40px rgba(102, 126, 234, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.overallProgress::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+  100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+}
+
+.progressHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  gap: 20px;
+}
+
+.progressTitleSection {
+  flex: 1;
+}
+
+.progressTitle {
+  font-size: 2.25rem;
+  font-weight: 800;
+  margin-bottom: 8px;
+  background: linear-gradient(135deg, #ffffff, #f0f9ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.progressSubtitle {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  font-weight: 400;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  min-width: 300px;
+}
+
+.statCard {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  padding: 16px;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.statCard:hover {
+  transform: translateY(-4px);
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.statIcon {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+}
+
+.statContent {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.statNumber {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.statLabel {
+  font-size: 0.8rem;
+  opacity: 0.9;
+  font-weight: 500;
+}
+
+.progressBarContainer {
+  position: relative;
+  z-index: 1;
+}
+
+/* Tutorials Section */
+.tutorialsSection {
+  margin-bottom: 32px;
+}
+
+.sectionTitle {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sectionTitle::before {
+  content: '';
+  width: 4px;
+  height: 32px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-radius: 2px;
+}
+
+.tutorialsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 24px;
+}
+
+/* Achievement Section */
+.achievementSection {
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  border-radius: 20px;
+  padding: 28px;
+  border: 1px solid rgba(59, 130, 246, 0.1);
+}
+
+.achievementGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.achievementBadge {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 25px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+  animation: bounceIn 0.6s ease-out;
+}
+
+@keyframes bounceIn {
+  0% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.achievementIcon {
+  width: 18px;
+  height: 18px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .tutorialList {
+    padding: 16px;
+  }
+  
+  .overallProgress {
+    padding: 24px;
+  }
+  
+  .progressHeader {
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .statsGrid {
+    grid-template-columns: repeat(3, 1fr);
+    min-width: auto;
+  }
+  
+  .progressTitle {
+    font-size: 1.75rem;
+  }
+  
+  .tutorialsGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .achievementGrid {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .statsGrid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .statCard {
+    padding: 12px;
+  }
+  
+  .progressTitle {
+    font-size: 1.5rem;
+  }
+  
+  .tutorialsGrid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}

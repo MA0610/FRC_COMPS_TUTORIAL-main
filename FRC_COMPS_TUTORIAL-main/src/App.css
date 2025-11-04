@@ -1,0 +1,239 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+/* ------------------------
+   General Buttons
+------------------------ */
+button {
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ------------------------
+   Drag-and-Drop Panel
+------------------------ */
+.dnd-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+  align-items: flex-start; /* prevents stretching */
+}
+
+.draggable {
+  padding: 10px 12px; /* improved */
+  margin: 6px 6px 0 0; /* improved */
+  background-color: #007bff;
+  color: white;
+  border-radius: 6px; /* improved */
+  cursor: grab;
+  user-select: none;
+  font-family: 'Fira Code', Menlo, Monaco, Consolas, 'Courier New', monospace; /* improved */
+  font-size: 0.9rem; /* improved */
+  line-height: 1.4; /* improved */
+  text-align: left;
+  white-space: pre; /* improved */
+  max-width: calc(100% - 20px); /* prevents stretching */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08); /* improved */
+  transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease; /* improved */
+}
+
+.draggable:active {
+  cursor: grabbing;
+  background-color: #0056b3;
+}
+
+.draggable:hover {
+  filter: brightness(1.05);
+}
+
+.droppable {
+  min-height: 150px;
+  padding: 10px;
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* slightly more space */
+  align-items: flex-start; /* prevents stretching */
+  transition: background-color 0.2s ease;
+}
+
+.droppable.over {
+  background-color: #d4edda;
+}
+
+/* Placeholder text in empty drop area */
+.droppable span {
+  color: #888;
+  font-style: italic;
+  display: block;
+  padding: 8px 0; /* improved */
+}
+
+/* Blocks inside drop zone */
+.dropped-block {
+  padding: 10px 12px; /* improved */
+  margin: 6px 0; /* improved */
+  background-color: #e3f2fd;
+  border: 1px solid #2196f3;
+  border-radius: 6px; /* improved */
+  cursor: grab;
+  user-select: none;
+  font-family: 'Fira Code', Menlo, Monaco, Consolas, 'Courier New', monospace; /* improved */
+  font-size: 0.9rem; /* improved */
+  line-height: 1.4; /* improved */
+  text-align: left;
+  white-space: pre; /* improved */
+  max-width: 100%;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08); /* improved */
+  transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease; /* improved */
+}
+
+.dropped-block:active {
+  cursor: grabbing;
+  background-color: #b8daff; /* improved */
+  box-shadow: 0 6px 12px rgba(0,0,0,0.2); /* improved */
+}
+
+.dropped-block:hover {
+  filter: brightness(1.05);
+}
+
+/* ------------------------
+   Coding View Panels
+------------------------ */
+.coding-view {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  min-height: 500px;
+}
+
+.coding-instructions {
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.coding-instructions pre {
+  background-color: #f8f9fa;
+  padding: 10px;
+  border-radius: 4px;
+  overflow-x: auto;
+  font-family: 'Fira Code', monospace;
+  font-size: 14px;
+}
+
+.coding-instructions button {
+  margin-top: 10px;
+  background-color: #ffc107;
+  color: black;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 10px 20px;
+}
+
+.coding-instructions button:hover {
+  filter: brightness(1.05);
+}
+
+/* ------------------------
+   Quiz Styles
+------------------------ */
+.quiz-option {
+  padding: 15px;
+  margin: 10px 0;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: white;
+  transition: all 0.2s ease;
+}
+
+.quiz-option.selected {
+  background-color: #e3f2fd;
+  border-color: #2196f3;
+}
+
+.quiz-option.correct {
+  background-color: #d4edda;
+  border-color: #28a745;
+  color: #155724;
+}
+
+.quiz-option.incorrect {
+  background-color: #f8d7da;
+  border-color: #dc3545;
+  color: #721c24;
+}
+
+.quiz-result {
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 4px;
+}
+
+.quiz-result.correct {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.quiz-result.incorrect {
+  background-color: #f8d7da;
+  color: #721c24;
+}
