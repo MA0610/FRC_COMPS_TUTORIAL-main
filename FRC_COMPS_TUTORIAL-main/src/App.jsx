@@ -11,6 +11,86 @@ import { CSS } from "@dnd-kit/utilities";
 import "./App.css";
 
 // ------------------------
+// Media Display Component (ADDED)
+// ------------------------
+const MediaDisplay = ({ media, title }) => {
+  if (!media) return null;
+
+  // Support either a single media object or an array of items
+  const items = Array.isArray(media) ? media : [media];
+
+  return (
+    <div style={{ marginTop: "20px", textAlign: "center" }}>
+      {items.map((item, idx) => {
+        // item can be { type: "image"|"video"|"audio", src: "...", alt?: "..." }
+        if (!item) return null;
+        const key = `${title || "media"}-${idx}`;
+        if (item.type === "image") {
+          return (
+            <img
+              key={key}
+              src={item.src}
+              alt={item.alt || title || "Lesson media"}
+              style={{
+                maxWidth: "100%",
+                borderRadius: "8px",
+                marginBottom: "15px",
+              }}
+            />
+          );
+        }
+        if (item.type === "video") {
+          // allow both iframe embed (item.src contains embed URL) or direct mp4 (render <video>)
+          const isEmbed = typeof item.src === "string" && (item.src.includes("youtube.com") || item.src.includes("vimeo.com") || item.src.includes("embed"));
+          if (isEmbed) {
+            return (
+              <div key={key} style={{ position: "relative", paddingBottom: "56.25%", height: 0, overflow: "hidden", borderRadius: "8px", marginBottom: "15px" }}>
+                <iframe
+                  src={item.src}
+                  title={title || "video"}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
+                />
+              </div>
+            );
+          }
+          // otherwise treat as a local/video file URL
+          return (
+            <video key={key} src={item.src} controls style={{ width: "100%", borderRadius: "8px", marginBottom: "15px" }}>
+              Your browser does not support the video tag.
+            </video>
+          );
+        }
+        if (item.type === "audio") {
+          return (
+            <audio key={key} src={item.src} controls style={{ width: "100%", marginTop: "10px", marginBottom: "10px" }}>
+              Your browser does not support the audio element.
+            </audio>
+          );
+        }
+        // fallback: if item has src, try img
+        if (item.src) {
+          return (
+            <img
+              key={key}
+              src={item.src}
+              alt={item.alt || title || "Lesson media"}
+              style={{
+                maxWidth: "100%",
+                borderRadius: "8px",
+                marginBottom: "15px",
+              }}
+            />
+          );
+        }
+        return null;
+      })}
+    </div>
+  );
+};
+
+// ------------------------
 // Quiz Component
 // ------------------------
 const QuizView = ({ lesson, onAnswer, userAnswer, isCorrect, showResult }) => {
@@ -55,6 +135,9 @@ const QuizView = ({ lesson, onAnswer, userAnswer, isCorrect, showResult }) => {
       <h3>{lesson.title}</h3>
       <div style={{ marginBottom: "20px", lineHeight: "1.6" }}>
         <ReactMarkdown>{lesson.content}</ReactMarkdown>
+
+        {/* --- ADDED: Media for quiz lessons --- */}
+        <MediaDisplay media={lesson.media} title={lesson.title} />
       </div>
 
       <div style={{ marginBottom: "20px" }}>
@@ -227,6 +310,10 @@ const CodingView = ({ lesson, isCorrect, onCheck, showHint, setShowHint }) => {
       <div style={{ padding: "20px", border: "1px solid #ddd", borderRadius: "8px", backgroundColor: "#f9f9f9" }}>
         <h3>{lesson.title}</h3>
         <ReactMarkdown>{lesson.content}</ReactMarkdown>
+
+        {/* --- ADDED: Media support for coding lessons --- */}
+        <MediaDisplay media={lesson.media} title={lesson.title} />
+
         {isCorrect === true && <div style={{ marginTop: "10px", color: "green" }}>✅ Correct!</div>}
         {isCorrect === false && <div style={{ marginTop: "10px", color: "red" }}>❌ Try again!</div>}
         <button
@@ -407,6 +494,10 @@ const TutorialView = ({ tutorial, onBack }) => {
           <div style={{ padding: "20px", border: "1px solid #ddd", borderRadius: "8px", backgroundColor: "#f9f9f9", marginBottom: "20px" }}>
             <h3>{currentLesson.title}</h3>
             <ReactMarkdown>{currentLesson.content}</ReactMarkdown>
+
+            {/* --- ADDED: Media for lecture lessons --- */}
+            <MediaDisplay media={currentLesson.media} title={currentLesson.title} />
+
             <button onClick={markLectureAsComplete} style={{ padding: "10px 20px", backgroundColor: "#28a745", color: "#fff", border: "none", borderRadius: "4px", cursor: "pointer", marginTop: "20px" }}>Mark as Complete</button>
           </div>
         )}

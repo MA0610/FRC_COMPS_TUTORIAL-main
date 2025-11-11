@@ -19,6 +19,11 @@ Overview:
 
 Practice activity:
 - Drag the following code snippets to assemble the correct variable declarations.`,
+        media: [
+          { type: "image", src: "/src/assets/media/beach_day.png", alt: "test" },
+          { type: "video", src: "https://www.youtube.com/embed/9mv4nd3P8nk", alt: "test2" },
+
+        ],
         codeBlocks: [
           'double rightSpeed = 0.5;',
           'String robotName = "DemoBot";',
