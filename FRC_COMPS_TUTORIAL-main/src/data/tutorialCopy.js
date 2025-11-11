@@ -20,7 +20,7 @@ Overview:
 Practice activity:
 - Drag the following code snippets to assemble the correct variable declarations.`,
         media: [
-          { type: "image", src: "/src/assets/media/beach_day.png", alt: "test" },
+          // { type: "image", src: "/src/assets/media/testPath", alt: "test" },
           { type: "video", src: "https://www.youtube.com/embed/9mv4nd3P8nk", alt: "test2" },
 
         ],
@@ -424,6 +424,54 @@ Advantages:
         type: "lecture",
         content: `Altough sensor-based autonomous is way more reliable and consistent (and super easy), time-based autonomous is where most teams start off with since they often don't either have the required sensors nor the knowledge to use them properly. Time-based autonomous works most often by using if statements within a command's execute() method to tell the robot what to do at certain time intervals. You will use a Timer object to keep track of how long the command has been running. You will declare/create this Timer object above the constructor and initialize it within the constructor. A VERY IMPORTANT step is to reset (TIMER_NAME.reset()) AND start the timer (TIMER_NAME.start()) within the initialize() method, this makes it so the timer starts counting from 0.0 seconds when the command starts running. To retrieve the value from the Timer object you will use the get() method (TIMER_NAME.get()) which returns a double value representing the number of seconds since the timer was started(). You would use an if/else if/else statement structure to tell the robot what to do at certain time intervals. It would look something like this if(timer.get() <2.0){ start driving forward } else if(2.0<timer.get() < 4.0){ stop drive forward & move arm out } else { stop arm} }. The reason why we will use either less/greater than (</>) or less than/equal to/greater than (<=/>=) is because sometimes the robot may not read a specific time value (ex. 2.0 seconds) due to how fast the code is running and how often the get() method is being called within execute() due to the command scheduler. Finally, remember to stop ALL MOTORS within the end() method of the command to make sure it stops moving at the end of autonomous or if the command has to end early for some reason.`,
       },
+      {
+        id: 3,
+        title: "Time-Based Autonomous — Quiz",
+        type: "quiz",
+        content: "Check your understanding of timers and command structure.",
+        question: "In this activity, which set of code will have the robot go forward for two seconds, then turn right with a tank control drivetrain method (tankDrive(leftSpeed, rightSpeed)) [assume it takes 1.5 seconds to turn 90 degrees at 100 percent speed] then go forward again for 2 seconds and then stop?",
+        options: {
+          a: `drivetrain.tankDrive(1.0, 1.0);
+              \nif(timer.get() >2.0 && timer.get() <=2.1){
+              \ndrivetrain.tankDrive(0.0, 0.0);
+              \ndrivetrain.tankDrive(1.0, -1.0);}
+              else if(timer.get() >3.6 && timer.get() <=3.7){
+              \ndrivetrain.tankDrive(0.0, 0.0);
+              \ndrivetrain.tankDrive(-1.0, -1.0);}
+              else if(timer.get() >5.7){
+              \ndrivetrain.tankDrive(0.0, 0.0);}`,
+          b: `drivetrain.tankDrive(1.0, 1.0);
+              if(timer.get() >2.0 && timer.get() <=2.1){
+              \ndrivetrain.tankDrive(0.0, 0.0);
+              \ndrivetrain.tankDrive(-1.0, 1.0);}
+              else if(timer.get() >3.6 && timer.get() <=3.7){
+              \ndrivetrain.tankDrive(0.0, 0.0);
+              \ndrivetrain.tankDrive(1.0, 1.0);}
+              else if(timer.get() >5.7){
+              \ndrivetrain.tankDrive(0.0, 0.0);}`,
+          c: `drivetrain.tankDrive(1.0, 1.0);
+              if(timer.get() >2.0 && timer.get() <=2.1){
+              \ndrivetrain.tankDrive(0.0, 0.0);
+              \ndrivetrain.tankDrive(1.0, -1.0);}
+              else if(timer.get() >3.6 && timer.get() <=3.7){
+              \ndrivetrain.tankDrive(0.0, 0.0);
+              \ndrivetrain.tankDrive(1.0, 1.0);}
+              else if(timer.get() >8.7){
+              \ndrivetrain.tankDrive(0.0, 0.0);}`,
+          d: `drivetrain.tankDrive(1.0, 1.0);
+              if(timer.get() >2.0 && timer.get() <=2.1){
+              \ndrivetrain.tankDrive(0.0, 0.0);
+              \ndrivetrain.tankDrive(1.0, -1.0);}
+              else if(timer.get() >3.6 && timer.get() <=3.7){
+              \ndrivetrain.tankDrive(0.0, 0.0);
+              \ndrivetrain.tankDrive(1.0, 1.0);}
+              else if(timer.get() >5.7){
+              \ndrivetrain.tankDrive(0.0, 0.0);}`
+        },
+        correctAnswer: "d",
+        explanation:
+          ""
+      }
       
     ]
   },

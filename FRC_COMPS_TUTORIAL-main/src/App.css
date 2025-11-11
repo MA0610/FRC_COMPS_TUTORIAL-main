@@ -195,6 +195,17 @@ button:disabled {
 /* ------------------------
    Quiz Styles
 ------------------------ */
+.quiz-question p {
+  font-family: monospace;
+  background: #f9f9f9;
+  padding: 1em;
+  border-radius: 6px;
+}
+
+.quiz-question button {
+  margin: 4px;
+}
+
 .quiz-option {
   padding: 15px;
   margin: 10px 0;
@@ -236,4 +247,125 @@ button:disabled {
 .quiz-result.incorrect {
   background-color: #f8d7da;
   color: #721c24;
+}
+
+/* ------------------------
+   Navigation Buttons
+------------------------ */
+.nav-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 30px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.nav-buttons button,
+.back-to-tutorials {
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: 2px solid #007bff;
+  background-color: white;
+  color: #007bff;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.nav-buttons button:hover:not(:disabled),
+.back-to-tutorials:hover {
+  background-color: #007bff;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.nav-buttons button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background-color: #f0f0f0;
+  color: #999;
+  border-color: #ccc;
+}
+
+/* Back to Tutorials button (standalone style) */
+.back-to-tutorials {
+  display: inline-block;
+  margin-top: 20px;
+  text-decoration: none;
+  border-radius: 8px;
+  background-color: #6c757d;
+  color: white;
+  border: none;
+}
+
+.back-to-tutorials:hover {
+  background-color: #5a6268;
+  transform: translateY(-2px);
+}
+
+/* ------------------------
+   Lesson Navigation Buttons
+------------------------ */
+
+/* Container for Prev/Next */
+.nav-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 30px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* Shared style for both */
+.nav-btn {
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: 2px solid #007bff;
+  background-color: white;
+  color: #007bff;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.nav-btn:hover:not(:disabled) {
+  background-color: #007bff;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.nav-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  border-color: #ccc;
+  color: #999;
+}
+
+/* Back to Tutorials button */
+.back-btn {
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: none;
+  background-color: #6c757d;
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.back-btn:hover {
+  background-color: #5a6268;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }

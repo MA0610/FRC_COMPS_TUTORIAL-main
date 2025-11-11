@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route, useParams, useNavigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import Login from "./components/Auth/Login";
 import Header from "./components/Common/Header";
@@ -8,22 +9,18 @@ import ReactMarkdown from "react-markdown";
 import { DndContext, useDraggable, useDroppable, closestCenter } from "@dnd-kit/core";
 import { SortableContext, useSortable, arrayMove, rectSortingStrategy } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { tutorialData } from "./data/tutorialData";
 import "./App.css";
 
-// ------------------------
-// Media Display Component (ADDED)
-// ------------------------
+/* ============================================================
+   MEDIA DISPLAY
+   ============================================================ */
 const MediaDisplay = ({ media, title }) => {
   if (!media) return null;
-
-  // Support either a single media object or an array of items
   const items = Array.isArray(media) ? media : [media];
-
   return (
     <div style={{ marginTop: "20px", textAlign: "center" }}>
       {items.map((item, idx) => {
-        // item can be { type: "image"|"video"|"audio", src: "...", alt?: "..." }
-        if (!item) return null;
         const key = `${title || "media"}-${idx}`;
         if (item.type === "image") {
           return (
@@ -40,36 +37,72 @@ const MediaDisplay = ({ media, title }) => {
           );
         }
         if (item.type === "video") {
-          // allow both iframe embed (item.src contains embed URL) or direct mp4 (render <video>)
-          const isEmbed = typeof item.src === "string" && (item.src.includes("youtube.com") || item.src.includes("vimeo.com") || item.src.includes("embed"));
+          const isEmbed =
+            typeof item.src === "string" &&
+            (item.src.includes("youtube.com") ||
+              item.src.includes("vimeo.com") ||
+              item.src.includes("embed"));
           if (isEmbed) {
             return (
-              <div key={key} style={{ position: "relative", paddingBottom: "56.25%", height: 0, overflow: "hidden", borderRadius: "8px", marginBottom: "15px" }}>
+              <div
+                key={key}
+                style={{
+                  position: "relative",
+                  paddingBottom: "56.25%",
+                  height: 0,
+                  overflow: "hidden",
+                  borderRadius: "8px",
+                  marginBottom: "15px",
+                }}
+              >
                 <iframe
                   src={item.src}
                   title={title || "video"}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
-                  style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    width: "100%",
+                    height: "100%",
+                    border: "none",
+                  }}
                 />
               </div>
             );
           }
-          // otherwise treat as a local/video file URL
           return (
-            <video key={key} src={item.src} controls style={{ width: "100%", borderRadius: "8px", marginBottom: "15px" }}>
+            <video
+              key={key}
+              src={item.src}
+              controls
+              style={{
+                width: "100%",
+                borderRadius: "8px",
+                marginBottom: "15px",
+              }}
+            >
               Your browser does not support the video tag.
             </video>
           );
         }
         if (item.type === "audio") {
           return (
-            <audio key={key} src={item.src} controls style={{ width: "100%", marginTop: "10px", marginBottom: "10px" }}>
+            <audio
+              key={key}
+              src={item.src}
+              controls
+              style={{
+                width: "100%",
+                marginTop: "10px",
+                marginBottom: "10px",
+              }}
+            >
               Your browser does not support the audio element.
             </audio>
           );
         }
-        // fallback: if item has src, try img
         if (item.src) {
           return (
             <img
@@ -90,12 +123,11 @@ const MediaDisplay = ({ media, title }) => {
   );
 };
 
-// ------------------------
-// Quiz Component
-// ------------------------
+/* ============================================================
+   QUIZ VIEW
+   ============================================================ */
 const QuizView = ({ lesson, onAnswer, userAnswer, isCorrect, showResult }) => {
   const [selectedOption, setSelectedOption] = useState(userAnswer || "");
-
   const handleSubmit = () => {
     if (selectedOption) onAnswer(selectedOption);
   };
@@ -118,34 +150,33 @@ const QuizView = ({ lesson, onAnswer, userAnswer, isCorrect, showResult }) => {
         borderColor: selectedOption === optionKey ? "#2196f3" : "#ddd",
       };
     }
-
     if (optionKey === lesson.correctAnswer) {
-      return { ...baseStyle, backgroundColor: "#d4edda", borderColor: "#28a745", color: "#155724" };
+      return {
+        ...baseStyle,
+        backgroundColor: "#d4edda",
+        borderColor: "#28a745",
+        color: "#155724",
+      };
     }
-
     if (selectedOption === optionKey && optionKey !== lesson.correctAnswer) {
-      return { ...baseStyle, backgroundColor: "#f8d7da", borderColor: "#dc3545", color: "#721c24" };
+      return {
+        ...baseStyle,
+        backgroundColor: "#f8d7da",
+        borderColor: "#dc3545",
+        color: "#721c24",
+      };
     }
-
     return { ...baseStyle, opacity: 0.6 };
   };
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div style={{ padding: "20px"}}>
       <h3>{lesson.title}</h3>
-      <div style={{ marginBottom: "20px", lineHeight: "1.6" }}>
-        <ReactMarkdown>{lesson.content}</ReactMarkdown>
-
-        {/* --- ADDED: Media for quiz lessons --- */}
-        <MediaDisplay media={lesson.media} title={lesson.title} />
-      </div>
-
+      <ReactMarkdown>{lesson.content}</ReactMarkdown>
+      <MediaDisplay media={lesson.media} title={lesson.title} />
       <div style={{ marginBottom: "20px" }}>
         <h4>Question:</h4>
-        <p style={{ fontSize: "16px", fontWeight: "500", marginBottom: "20px" }}>
-          {lesson.question}
-        </p>
-
+        <p style={{ fontSize: "16px", fontWeight: "500" }}>{lesson.question}</p>
         <div>
           {Object.entries(lesson.options).map(([key, value]) => (
             <div
@@ -153,17 +184,29 @@ const QuizView = ({ lesson, onAnswer, userAnswer, isCorrect, showResult }) => {
               style={getOptionStyle(key)}
               onClick={() => !showResult && setSelectedOption(key)}
             >
-              <label style={{ cursor: "pointer", display: "block", width: "100%" }}>
+              <label style={{ cursor: "pointer", display: "block" }}>
                 <input
                   type="radio"
                   name="quiz-option"
                   value={key}
                   checked={selectedOption === key}
                   onChange={() => !showResult && setSelectedOption(key)}
-                  style={{ marginRight: "10px" }}
                   disabled={showResult}
+                  style={{ marginRight: "10px" }}
                 />
-                <strong>{key.toUpperCase()}:</strong> {value}
+                <strong>{key.toUpperCase()}:</strong>
+                <pre
+                  style={{
+                    whiteSpace: "pre-wrap",
+                    fontFamily:
+                      "Fira Code, Menlo, Monaco, Consolas, 'Courier New', monospace",
+                    fontSize: "0.95rem",
+                    lineHeight: "1.5",
+                    margin: "8px 0 0 0",
+                  }}
+                >
+                  {value}
+                </pre>
               </label>
             </div>
           ))}
@@ -191,12 +234,26 @@ const QuizView = ({ lesson, onAnswer, userAnswer, isCorrect, showResult }) => {
       {showResult && (
         <div style={{ marginTop: "20px" }}>
           {isCorrect ? (
-            <div style={{ padding: "15px", backgroundColor: "#d4edda", color: "#155724", borderRadius: "4px" }}>
-              <strong>✅ Correct!</strong> {lesson.explanation}
+            <div
+              style={{
+                padding: "15px",
+                backgroundColor: "#d4edda",
+                color: "#155724",
+                borderRadius: "4px",
+              }}
+            >
+              ✅ Correct! {lesson.explanation}
             </div>
           ) : (
-            <div style={{ padding: "15px", backgroundColor: "#f8d7da", color: "#721c24", borderRadius: "4px" }}>
-              <strong>❌ Incorrect.</strong> {lesson.explanation}
+            <div
+              style={{
+                padding: "15px",
+                backgroundColor: "#f8d7da",
+                color: "#721c24",
+                borderRadius: "4px",
+              }}
+            >
+              ❌ Incorrect. {lesson.explanation}
             </div>
           )}
         </div>
@@ -205,9 +262,9 @@ const QuizView = ({ lesson, onAnswer, userAnswer, isCorrect, showResult }) => {
   );
 };
 
-// ------------------------
-// Drag-and-Drop Components
-// ------------------------
+/* ============================================================
+   DRAG & DROP HELPERS
+   ============================================================ */
 function Droppable({ id, children, label }) {
   const { setNodeRef, isOver } = useDroppable({ id });
   return (
@@ -220,13 +277,13 @@ function Droppable({ id, children, label }) {
         border: "2px dashed #ccc",
         borderRadius: "8px",
         backgroundColor: isOver ? "#d4edda" : "#f8f9fa",
-        display: "flex",
-        flexDirection: "column",
-        gap: "8px",
-        alignItems: "stretch",
       }}
     >
-      {children.length === 0 ? <span style={{ color: "#888" }}>{label ?? "Drop blocks here"}</span> : children}
+      {children.length === 0 ? (
+        <span style={{ color: "#888" }}>{label ?? "Drop blocks here"}</span>
+      ) : (
+        children
+      )}
     </div>
   );
 }
@@ -240,24 +297,27 @@ function Draggable({ id, label }) {
     color: "white",
     borderRadius: "6px",
     cursor: "grab",
-    transform: transform ? `translate3d(${transform.x}px, ${transform.y}px, 0)` : undefined,
+    transform: transform
+      ? `translate3d(${transform.x}px, ${transform.y}px, 0)`
+      : undefined,
     whiteSpace: "pre",
-    fontFamily: "Fira Code, Menlo, Monaco, Consolas, 'Courier New', monospace",
+    fontFamily:
+      "Fira Code, Menlo, Monaco, Consolas, 'Courier New', monospace",
     fontSize: "0.9rem",
     lineHeight: "1.4",
     boxShadow: "0 2px 6px rgba(0,0,0,0.08)",
     textAlign: "left",
   };
-
   return (
     <div ref={setNodeRef} {...listeners} {...attributes} style={style}>
-      <code style={{ display: "block", whiteSpace: "pre" }}>{label}</code>
+      <code>{label}</code>
     </div>
   );
 }
 
 const SortableBlock = ({ id, block, removeBlock }) => {
-  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id });
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id });
   const style = {
     padding: "10px 12px",
     margin: "6px 0",
@@ -268,12 +328,12 @@ const SortableBlock = ({ id, block, removeBlock }) => {
     transform: CSS.Transform.toString(transform),
     transition,
     whiteSpace: "pre",
-    fontFamily: "Fira Code, Menlo, Monaco, Consolas, 'Courier New', monospace",
+    fontFamily:
+      "Fira Code, Menlo, Monaco, Consolas, 'Courier New', monospace",
     fontSize: "0.9rem",
     lineHeight: "1.4",
     textAlign: "left",
   };
-
   return (
     <div
       ref={setNodeRef}
@@ -282,15 +342,23 @@ const SortableBlock = ({ id, block, removeBlock }) => {
       {...listeners}
       onDoubleClick={() => removeBlock(id)}
     >
-      <code style={{ display: "block", whiteSpace: "pre" }}>{block}</code>
+      <code>{block}</code>
     </div>
   );
 };
 
-// ------------------------
-// Coding View
-// ------------------------
-const CodingView = ({ lesson, isCorrect, onCheck, showHint, setShowHint }) => {
+/* ============================================================
+   CODING VIEW
+   ============================================================ */
+const CodingView = ({
+  lesson,
+  isCorrect,
+  onCheck,
+  showHint,
+  setShowHint,
+  feedback,
+  incorrectAttempts,
+}) => {
   const [availableBlocks, setAvailableBlocks] = useState([]);
   const [userBlocks, setUserBlocks] = useState([]);
 
@@ -300,36 +368,72 @@ const CodingView = ({ lesson, isCorrect, onCheck, showHint, setShowHint }) => {
   }, [lesson]);
 
   const removeBlock = (blockId) => {
-    setUserBlocks(userBlocks.filter((b) => b !== blockId));
-    setAvailableBlocks([...availableBlocks, blockId]);
+    setUserBlocks((prev) => prev.filter((b) => b !== blockId));
+    setAvailableBlocks((prev) => [...prev, blockId]);
+  };
+
+  const handleCheck = () => {
+    onCheck(userBlocks);
   };
 
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px", minHeight: "500px" }}>
-      {/* Instructions */}
-      <div style={{ padding: "20px", border: "1px solid #ddd", borderRadius: "8px", backgroundColor: "#f9f9f9" }}>
+    <div
+      style={{
+        // display: "grid",
+        // gridTemplateColumns: "1fr 1fr",
+        display: "flex",
+        alignItems: "flex-start",
+        gap: "20px",
+        minHeight: "500px",
+      }}
+    >
+      {/* LEFT SIDE: Instructions and feedback */}
+      <div
+        style={{
+          padding: "20px",
+          border: "1px solid #ddd",
+          borderRadius: "8px",
+          backgroundColor: "#f9f9f9",
+          display: "inline-block",
+        }}
+      >
         <h3>{lesson.title}</h3>
         <ReactMarkdown>{lesson.content}</ReactMarkdown>
-
-        {/* --- ADDED: Media support for coding lessons --- */}
         <MediaDisplay media={lesson.media} title={lesson.title} />
 
-        {isCorrect === true && <div style={{ marginTop: "10px", color: "green" }}>✅ Correct!</div>}
-        {isCorrect === false && <div style={{ marginTop: "10px", color: "red" }}>❌ Try again!</div>}
-        <button
-          onClick={() => setShowHint(!showHint)}
-          style={{
-            padding: "10px 20px",
-            marginTop: "10px",
-            backgroundColor: "#ffc107",
-            color: "black",
-            border: "none",
-            borderRadius: "4px",
-            cursor: "pointer",
-          }}
-        >
-          {showHint ? "Hide" : "Show"} Solution
-        </button>
+        {feedback && (
+          <div
+            style={{
+              marginTop: "10px",
+              padding: "10px",
+              backgroundColor: isCorrect ? "#d4edda" : "#fff3cd",
+              color: isCorrect ? "#155724" : "#856404",
+              borderRadius: "4px",
+              whiteSpace: "pre-wrap",
+            }}
+          >
+            {feedback}
+          </div>
+        )}
+
+        {/* Show hint button only after 5 failed attempts */}
+        {incorrectAttempts >= 5 && (
+          <button
+            onClick={() => setShowHint(!showHint)}
+            style={{
+              padding: "10px 20px",
+              marginTop: "10px",
+              backgroundColor: "#ffc107",
+              color: "black",
+              border: "none",
+              borderRadius: "4px",
+              cursor: "pointer",
+            }}
+          >
+            {showHint ? "Hide" : "Show"} Solution
+          </button>
+        )}
+
         {showHint && (
           <pre
             style={{
@@ -344,7 +448,7 @@ const CodingView = ({ lesson, isCorrect, onCheck, showHint, setShowHint }) => {
         )}
       </div>
 
-      {/* Drag-and-Drop */}
+      {/* RIGHT SIDE: Drag and drop zone */}
       <div>
         <DndContext
           collisionDetection={closestCenter}
@@ -353,18 +457,14 @@ const CodingView = ({ lesson, isCorrect, onCheck, showHint, setShowHint }) => {
             const activeId = active?.id;
             const overId = over?.id ?? null;
             if (!activeId) return;
-
             const fromAvailable = availableBlocks.includes(activeId);
             const fromUser = userBlocks.includes(activeId);
 
-            // Drag from available -> dropzone
             if (fromAvailable && overId === "dropzone") {
               setAvailableBlocks((prev) => prev.filter((b) => b !== activeId));
               setUserBlocks((prev) => [...prev, activeId]);
               return;
             }
-
-            // Drag from available -> insert before a block in dropzone
             if (fromAvailable && userBlocks.includes(overId)) {
               setAvailableBlocks((prev) => prev.filter((b) => b !== activeId));
               setUserBlocks((prev) => {
@@ -375,8 +475,6 @@ const CodingView = ({ lesson, isCorrect, onCheck, showHint, setShowHint }) => {
               });
               return;
             }
-
-            // Reorder inside dropzone
             if (fromUser && userBlocks.includes(overId)) {
               const oldIndex = userBlocks.indexOf(activeId);
               const newIndex = userBlocks.indexOf(overId);
@@ -385,8 +483,6 @@ const CodingView = ({ lesson, isCorrect, onCheck, showHint, setShowHint }) => {
               }
               return;
             }
-
-            // Dragging from dropzone back to available
             if (fromUser && (overId === "availableZone" || !overId)) {
               setUserBlocks((prev) => prev.filter((b) => b !== activeId));
               setAvailableBlocks((prev) => [...prev, activeId]);
@@ -394,18 +490,27 @@ const CodingView = ({ lesson, isCorrect, onCheck, showHint, setShowHint }) => {
             }
           }}
         >
-          {/* Dropzone */}
           <Droppable id="dropzone" label="Drop blocks here">
             <SortableContext items={userBlocks} strategy={rectSortingStrategy}>
               {userBlocks.map((b) => (
-                <SortableBlock key={b} id={b} block={b} removeBlock={removeBlock} />
+                <SortableBlock
+                  key={b}
+                  id={b}
+                  block={b}
+                  removeBlock={removeBlock}
+                />
               ))}
             </SortableContext>
           </Droppable>
-
-          {/* Available blocks area */}
           <Droppable id="availableZone" label="Available blocks">
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "10px", marginTop: "10px" }}>
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: "10px",
+                marginTop: "10px",
+              }}
+            >
               {availableBlocks.map((b) => (
                 <Draggable key={b} id={b} label={b} />
               ))}
@@ -414,7 +519,7 @@ const CodingView = ({ lesson, isCorrect, onCheck, showHint, setShowHint }) => {
         </DndContext>
 
         <button
-          onClick={() => onCheck(userBlocks.join("\n") === lesson.solution.join("\n"))}
+          onClick={handleCheck}
           style={{
             marginTop: "15px",
             padding: "10px 20px",
@@ -432,132 +537,218 @@ const CodingView = ({ lesson, isCorrect, onCheck, showHint, setShowHint }) => {
   );
 };
 
-// ------------------------
-// Tutorial View
-// ------------------------
-const TutorialView = ({ tutorial, onBack }) => {
-  const [currentLessonIndex, setCurrentLessonIndex] = useState(0);
-  const [isCorrect, setIsCorrect] = useState(null);
-  const [showHint, setShowHint] = useState(false);
-  const [quizAnswers, setQuizAnswers] = useState({});
-  const [showQuizResult, setShowQuizResult] = useState(false);
+
+/* ============================================================
+   PAGE COMPONENTS FOR ROUTING
+   ============================================================ */
+const TutorialListPage = () => {
+  const navigate = useNavigate();
+  const handleSelectTutorial = (tutorial) => {
+    navigate(`/tutorial/${tutorial.id}/lesson/1`);
+  };
+  return <TutorialList onSelectTutorial={handleSelectTutorial} />;
+};
+
+const TutorialLessonPage = () => {
+  const { tutorialId, lessonId } = useParams();
+  const navigate = useNavigate();
   const { updateProgress, isLessonCompleted } = useProgress();
 
-  const currentLesson = tutorial.lessons[currentLessonIndex];
-  const isCompleted = isLessonCompleted(tutorial.id, currentLesson.id);
-  const isQuizLesson = currentLesson.type === "quiz";
-  const isLectureLesson = currentLesson.type === "lecture";
+  const tutorial = tutorialData.find((t) => t.id.toString() === tutorialId);
+  if (!tutorial) return <div>Tutorial not found</div>;
+  const index = parseInt(lessonId) - 1;
+  const lesson = tutorial.lessons[index];
+  if (!lesson) return <div>Lesson not found</div>;
 
-  useEffect(() => {
-    setIsCorrect(null);
-    setShowHint(false);
-    setShowQuizResult(false);
-  }, [currentLessonIndex]);
+  const isCompleted = isLessonCompleted(tutorial.id, lesson.id);
 
-  const handleQuizAnswer = (selectedOption) => {
-    const lessonKey = `${tutorial.id}-${currentLesson.id}`;
-    setQuizAnswers((prev) => ({ ...prev, [lessonKey]: selectedOption }));
+  const [userAnswer, setUserAnswer] = useState("");
+  const [isCorrect, setIsCorrect] = useState(null);
+  const [showResult, setShowResult] = useState(false);
 
-    const correct = selectedOption === currentLesson.correctAnswer;
-    setIsCorrect(correct);
-    setShowQuizResult(true);
+const [codeCorrect, setCodeCorrect] = useState(null);
+const [showHint, setShowHint] = useState(false);
+const [incorrectAttempts, setIncorrectAttempts] = useState(0);
+const [feedback, setFeedback] = useState("");
 
-    if (correct) updateProgress(tutorial.id, currentLesson.id);
-  };
-
-  const handleNextLesson = () => {
-    if (currentLessonIndex < tutorial.lessons.length - 1) setCurrentLessonIndex(currentLessonIndex + 1);
-  };
-
-  const handlePrevLesson = () => {
-    if (currentLessonIndex > 0) setCurrentLessonIndex(currentLessonIndex - 1);
-  };
-
-  const markLectureAsComplete = () => {
-    updateProgress(tutorial.id, currentLesson.id);
-  };
 
   return (
     <div style={{ padding: "20px", maxWidth: "1200px", margin: "0 auto" }}>
-      <div style={{ marginBottom: "20px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <button onClick={onBack} style={{ padding: "10px 20px", cursor: "pointer" }}>← Back to Tutorials</button>
-        <div style={{ textAlign: "center" }}>
-          <h1>{tutorial.title}</h1>
-          <p>Lesson {currentLessonIndex + 1} of {tutorial.lessons.length} {isQuizLesson ? " (Quiz)" : " (Coding)"}</p>
+      <button onClick={() => navigate("/tutorials")} className="back-btn">← Back to Tutorials</button>
+      <h1>{tutorial.title}</h1>
+      <p>
+        Lesson {index + 1} of {tutorial.lessons.length}
+      </p>
+      {isCompleted && (
+        <div
+          style={{
+            padding: "10px",
+            backgroundColor: "#cce5ff",
+            color: "#004085",
+            borderRadius: "4px",
+            marginBottom: "15px",
+            textAlign: "center",
+          }}
+        >
+          🎉 Lesson completed!
         </div>
+      )}
+      {lesson.type === "lecture" && (
+        <div
+          style={{
+            padding: "20px",
+            border: "1px solid #ddd",
+            borderRadius: "8px",
+            backgroundColor: "#f9f9f9",
+            
+          }}
+        >
+          <h3>{lesson.title}</h3>
+          <ReactMarkdown>{lesson.content}</ReactMarkdown>
+          <MediaDisplay media={lesson.media} title={lesson.title} />
+        </div>
+      )}
+      {/* QUIZ LESSON */}
+{lesson.type === "quiz" && (
+  <QuizView
+    lesson={lesson}
+    userAnswer={userAnswer}
+    isCorrect={isCorrect}
+    showResult={showResult}
+    onAnswer={(answer) => {
+      setUserAnswer(answer);
+      const correct = answer === lesson.correctAnswer;
+      setIsCorrect(correct);
+      setShowResult(true);
+      if (correct) updateProgress(tutorial.id, lesson.id);
+    }}
+  />
+)}
+
+{/* CODING LESSON */}
+{lesson.type === "coding" && (
+  <CodingView
+    lesson={lesson}
+    isCorrect={codeCorrect}
+    showHint={showHint}
+    setShowHint={setShowHint}
+    feedback={feedback}
+    incorrectAttempts={incorrectAttempts}
+    onCheck={(userCode) => {
+      const correctCode = lesson.solution;
+      const isCorrect = userCode.join("\n") === correctCode.join("\n");
+
+      // Count prefix match (how many correct lines from top)
+      let matchCount = 0;
+      for (let i = 0; i < Math.min(userCode.length, correctCode.length); i++) {
+        if (userCode[i] === correctCode[i]) matchCount++;
+        else break;
+      }
+
+      if (isCorrect) {
+        setCodeCorrect(true);
+        setFeedback(`✅ Perfect! Your code is fully correct.`);
+        updateProgress(tutorial.id, lesson.id);
+      } else {
+        setCodeCorrect(false);
+        setIncorrectAttempts((prev) => prev + 1);
+        if (matchCount > 0) {
+          setFeedback(`🔹 You have ${matchCount} block${matchCount > 1 ? "s" : ""} correct from the top.`);
+        } else {
+          setFeedback("❌ No blocks in the correct position yet, keep trying!");
+        }
+      }
+    }}
+  />
+)}
+
+
+
+            {/* ======= LESSON NAV BUTTONS ======= */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          flexWrap: "wrap",
+          gap: "10px",
+          marginTop: "20px",
+        }}
+      >
+        {tutorial.lessons.map((l, i) => (
+          <button
+            key={l.id}
+            onClick={() => navigate(`/tutorial/${tutorial.id}/lesson/${i + 1}`)}
+            style={{
+              padding: "8px 14px",
+              borderRadius: "6px",
+              border: "1px solid #007bff",
+              backgroundColor: i === index ? "#007bff" : "white",
+              color: i === index ? "white" : "#007bff",
+              cursor: "pointer",
+              fontWeight: i === index ? "bold" : "normal",
+              transition: "all 0.2s ease",
+            }}
+          >
+            {`Lesson ${i + 1}`}
+          </button>
+        ))}
       </div>
 
-      {isCompleted && <div style={{ padding: "10px", backgroundColor: "#cce5ff", color: "#004085", borderRadius: "4px", marginBottom: "15px", textAlign: "center" }}>🎉 Lesson completed!</div>}
 
-      <div style={{ marginBottom: "20px" }}>
-        {isLectureLesson && (
-          <div style={{ padding: "20px", border: "1px solid #ddd", borderRadius: "8px", backgroundColor: "#f9f9f9", marginBottom: "20px" }}>
-            <h3>{currentLesson.title}</h3>
-            <ReactMarkdown>{currentLesson.content}</ReactMarkdown>
+      <div className="nav-buttons">
+  <button
+    className="nav-btn prev-btn"
+    disabled={index === 0}
+    onClick={() => navigate(`/tutorial/${tutorial.id}/lesson/${index}`)}
+  >
+    ← Previous
+  </button>
 
-            {/* --- ADDED: Media for lecture lessons --- */}
-            <MediaDisplay media={currentLesson.media} title={currentLesson.title} />
-
-            <button onClick={markLectureAsComplete} style={{ padding: "10px 20px", backgroundColor: "#28a745", color: "#fff", border: "none", borderRadius: "4px", cursor: "pointer", marginTop: "20px" }}>Mark as Complete</button>
-          </div>
-        )}
-
-        {isQuizLesson ? (
-          <QuizView
-            lesson={currentLesson}
-            onAnswer={handleQuizAnswer}
-            userAnswer={quizAnswers[`${tutorial.id}-${currentLesson.id}`]}
-            isCorrect={isCorrect}
-            showResult={showQuizResult}
-          />
-        ) : (
-          !isLectureLesson && (
-            <CodingView
-              lesson={currentLesson}
-              isCorrect={isCorrect}
-              onCheck={setIsCorrect}
-              showHint={showHint}
-              setShowHint={setShowHint}
-            />
-          )
-        )}
-      </div>
-
-      <div style={{ marginTop: "30px", display: "flex", justifyContent: "space-between" }}>
-        <button onClick={handlePrevLesson} disabled={currentLessonIndex === 0} style={{ padding: "10px 20px", cursor: currentLessonIndex === 0 ? "not-allowed" : "pointer", opacity: currentLessonIndex === 0 ? 0.5 : 1 }}>← Previous Lesson</button>
-        <button onClick={handleNextLesson} disabled={currentLessonIndex === tutorial.lessons.length - 1} style={{ padding: "10px 20px", cursor: currentLessonIndex === tutorial.lessons.length - 1 ? "not-allowed" : "pointer", opacity: currentLessonIndex === tutorial.lessons.length - 1 ? 0.5 : 1 }}>Next Lesson →</button>
-      </div>
+  <button
+    className="nav-btn next-btn"
+    disabled={index === tutorial.lessons.length - 1}
+    onClick={() => navigate(`/tutorial/${tutorial.id}/lesson/${index + 2}`)}
+  >
+    Next →
+  </button>
+</div>
     </div>
   );
 };
 
-// ------------------------
-// Main App
-// ------------------------
-const AppContent = () => {
+/* ============================================================
+   MAIN APP
+   ============================================================ */
+const App = () => {
   const { user } = useAuth();
-  const [selectedTutorial, setSelectedTutorial] = useState(null);
-
-  if (!user) return <Login />;
-
   return (
-    <div className="app">
-      <Header />
-      <main className="main-content">
-        {selectedTutorial ? (
-          <TutorialView tutorial={selectedTutorial} onBack={() => setSelectedTutorial(null)} />
+    <Router>
+      <div className="App">
+        <Header />
+        {!user ? (
+          <Login />
         ) : (
-          <TutorialList onSelectTutorial={setSelectedTutorial} />
+          <Routes>
+            <Route path="/" element={<TutorialListPage />} />
+            <Route path="/tutorials" element={<TutorialListPage />} />
+            <Route
+              path="/tutorial/:tutorialId/lesson/:lessonId"
+              element={<TutorialLessonPage />}
+            />
+          </Routes>
         )}
-      </main>
-    </div>
+      </div>
+    </Router>
   );
 };
 
-const App = () => (
-  <AuthProvider>
-    <AppContent />
-  </AuthProvider>
-);
-
-export default App;
+/* ============================================================
+   EXPORT WRAPPED APP
+   ============================================================ */
+export default function AppWithProviders() {
+  return (
+    <AuthProvider>
+      <App />
+    </AuthProvider>
+  );
+}
