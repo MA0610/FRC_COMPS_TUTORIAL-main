@@ -16,15 +16,15 @@ const TutorialCard = ({ tutorial, progress, completedLessons, onSelect }) => {
           <BookOpen className={styles.icon} />
         </div>
         <div className={styles.cardStats}>
-          <div className={styles.statsNumber}>{completedLessons}</div>
-          <div className={styles.statsLabel}>of {tutorial.lessons.length}</div>
+          {/* <div className={styles.statsNumber}>{completedLessons}</div>
+          <div className={styles.statsLabel}>of {tutorial.lessons.length}</div> */}
         </div>
       </div>
       
       <h3 className={styles.cardTitle}>{tutorial.title}</h3>
       <p className={styles.cardDescription}>{tutorial.description}</p>
       
-      <ProgressBar progress={progress} label="Progress" />
+      {/* <ProgressBar progress={progress} label="Progress" /> */}
       
       <div className={styles.cardFooter}>
         <span className={styles.lessonCount}>{tutorial.lessons.length} lessons</span>

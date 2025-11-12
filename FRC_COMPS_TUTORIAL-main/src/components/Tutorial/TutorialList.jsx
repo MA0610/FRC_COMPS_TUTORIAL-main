@@ -22,7 +22,7 @@ const TutorialList = ({ onSelectTutorial }) => {
   return (
     <div className={styles.tutorialList}>
       {/* Overall Progress Section */}
-      <div className={styles.overallProgress}>
+      {/* <div className={styles.overallProgress}>
         <div className={styles.progressHeader}>
           <div className={styles.progressTitleSection}>
             <h2 className={styles.progressTitle}>Your Learning Journey</h2>
@@ -66,20 +66,20 @@ const TutorialList = ({ onSelectTutorial }) => {
             showPercentage={true}
           />
         </div>
-      </div>
+      </div> */}
 
       {/* Tutorials Grid */}
       <div className={styles.tutorialsSection}>
         <h3 className={styles.sectionTitle}>Available Tutorials</h3>
         <div className={styles.tutorialsGrid}>
           {tutorialData.map(tutorial => {
-            const progress = getTutorialProgress(tutorial.id);
+            // const progress = getTutorialProgress(tutorial.id);
             return (
               <TutorialCard
                 key={tutorial.id}
                 tutorial={tutorial}
-                progress={progress.progress}
-                completedLessons={progress.completedLessons}
+                // progress={progress.progress}
+                // completedLessons={progress.completedLessons}
                 onSelect={onSelectTutorial}
               />
             );
@@ -92,13 +92,13 @@ const TutorialList = ({ onSelectTutorial }) => {
         <div className={styles.achievementSection}>
           <h3 className={styles.sectionTitle}>Your Achievements</h3>
           <div className={styles.achievementGrid}>
-            {completedTutorials >= 1 && (
+            {/* {completedTutorials >= 1 && (
               <div className={styles.achievementBadge}>
                 <Trophy className={styles.achievementIcon} />
                 <span>First Tutorial Complete!</span>
               </div>
-            )}
-            {completedTutorials >= 3 && (
+            )} */}
+            {/* {completedTutorials >= 3 && (
               <div className={styles.achievementBadge}>
                 <Target className={styles.achievementIcon} />
                 <span>Tutorial Master</span>
@@ -109,7 +109,7 @@ const TutorialList = ({ onSelectTutorial }) => {
                 <BookOpen className={styles.achievementIcon} />
                 <span>Halfway Hero</span>
               </div>
-            )}
+            )} */}
           </div>
         </div>
       )}

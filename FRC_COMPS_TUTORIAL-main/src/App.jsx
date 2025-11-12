@@ -276,7 +276,7 @@ function Droppable({ id, children, label }) {
         padding: "10px",
         border: "2px solid #000",
         // borderWidth: "1px",
-        borderRadius: "10px",
+        borderRadius: "px",
         backgroundColor: isOver ? "#d4edda" : "#f8f9fa",
       }}
     >
@@ -581,7 +581,7 @@ const [feedback, setFeedback] = useState("");
       <p>
         Lesson {index + 1} of {tutorial.lessons.length}
       </p>
-      {isCompleted && (
+      {/* {isCompleted && (
         <div
           style={{
             padding: "10px",
@@ -594,7 +594,7 @@ const [feedback, setFeedback] = useState("");
         >
           🎉 Lesson completed!
         </div>
-      )}
+      )} */}
       {lesson.type === "lecture" && (
         <div
           style={{
@@ -622,7 +622,7 @@ const [feedback, setFeedback] = useState("");
       const correct = answer === lesson.correctAnswer;
       setIsCorrect(correct);
       setShowResult(true);
-      if (correct) updateProgress(tutorial.id, lesson.id);
+      // if (correct) updateProgress(tutorial.id, lesson.id);
     }}
   />
 )}
@@ -650,7 +650,7 @@ const [feedback, setFeedback] = useState("");
       if (isCorrect) {
         setCodeCorrect(true);
         setFeedback(`✅ Perfect! Your code is fully correct.`);
-        updateProgress(tutorial.id, lesson.id);
+        // updateProgress(tutorial.id, lesson.id);
       } else {
         setCodeCorrect(false);
         setIncorrectAttempts((prev) => prev + 1);
