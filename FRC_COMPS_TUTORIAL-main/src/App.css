@@ -291,7 +291,6 @@ button:disabled {
   border-color: #ccc;
 }
 
-/* Back to Tutorials button (standalone style) */
 .back-to-tutorials {
   display: inline-block;
   margin-top: 20px;

@@ -274,8 +274,9 @@ function Droppable({ id, children, label }) {
       style={{
         minHeight: "150px",
         padding: "10px",
-        border: "2px dashed #ccc",
-        borderRadius: "8px",
+        border: "2px solid #000",
+        // borderWidth: "1px",
+        borderRadius: "10px",
         backgroundColor: isOver ? "#d4edda" : "#f8f9fa",
       }}
     >
@@ -385,6 +386,7 @@ const CodingView = ({
         alignItems: "flex-start",
         gap: "20px",
         minHeight: "500px",
+        
       }}
     >
       {/* LEFT SIDE: Instructions and feedback */}
@@ -416,8 +418,8 @@ const CodingView = ({
           </div>
         )}
 
-        {/* Show hint button only after 5 failed attempts */}
-        {incorrectAttempts >= 5 && (
+        {/* Show hint button only after 3 failed attempts */}
+        {incorrectAttempts >= 3 && (
           <button
             onClick={() => setShowHint(!showHint)}
             style={{
@@ -638,7 +640,7 @@ const [feedback, setFeedback] = useState("");
       const correctCode = lesson.solution;
       const isCorrect = userCode.join("\n") === correctCode.join("\n");
 
-      // Count prefix match (how many correct lines from top)
+      // Count how many correct lines from top
       let matchCount = 0;
       for (let i = 0; i < Math.min(userCode.length, correctCode.length); i++) {
         if (userCode[i] === correctCode[i]) matchCount++;
@@ -653,7 +655,7 @@ const [feedback, setFeedback] = useState("");
         setCodeCorrect(false);
         setIncorrectAttempts((prev) => prev + 1);
         if (matchCount > 0) {
-          setFeedback(`🔹 You have ${matchCount} block${matchCount > 1 ? "s" : ""} correct from the top.`);
+          setFeedback(`❌ You have ${matchCount} block${matchCount > 1 ? "s" : ""} correct from the top.`);
         } else {
           setFeedback("❌ No blocks in the correct position yet, keep trying!");
         }

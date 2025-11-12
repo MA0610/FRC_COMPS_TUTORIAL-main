@@ -291,7 +291,7 @@ Advantages:
     id: 4,
     title: "Sensor Integration",
     description:
-      "",
+      "How to use sensors to give your robot feedback about the world and make smarter decisions and make your robot more consistent and autonomous.",
     lessons: [
   {
         id: 1,
