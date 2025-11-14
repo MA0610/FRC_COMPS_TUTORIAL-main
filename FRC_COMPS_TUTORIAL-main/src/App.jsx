@@ -128,8 +128,16 @@ const MediaDisplay = ({ media, title }) => {
    ============================================================ */
 const QuizView = ({ lesson, onAnswer, userAnswer, isCorrect, showResult }) => {
   const [selectedOption, setSelectedOption] = useState(userAnswer || "");
+  const [videoToShow, setVideoToShow] = useState(null);
+
   const handleSubmit = () => {
-    if (selectedOption) onAnswer(selectedOption);
+    if (selectedOption){
+       onAnswer(selectedOption);
+
+      if (lesson.optionVideos && lesson.optionVideos[selectedOption]) {
+        setVideoToShow(lesson.optionVideos[selectedOption]);
+      }
+    }
   };
 
   const getOptionStyle = (optionKey) => {
@@ -258,6 +266,13 @@ const QuizView = ({ lesson, onAnswer, userAnswer, isCorrect, showResult }) => {
           )}
         </div>
       )}
+      {videoToShow && (
+  <div style={{ marginTop: "25px" }}>
+    <h4>Related Video:</h4>
+    <MediaDisplay media={videoToShow} title="Selected Option Video" />
+  </div>
+)}
+
     </div>
   );
 };

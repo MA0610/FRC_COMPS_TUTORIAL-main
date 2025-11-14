@@ -37,16 +37,15 @@ export const tutorialData = [
         id: 2,
         title: "Print statements + Debugging",
         type: "coding",
-        content: `Print statements are ways that the user can get feedback from their code within the terminal. This can be helpful to help debug code so you can see the flow of code execution (for example, if you notice that something you expected to happen isn't happening, your code may be getting skipped so you can add print statements to see if a certain block of code is being executed). 
+        content: `Print statements are ways that the user can get feedback from their code within the terminal. This can be helpful to help debug code so you can see the flow of code execution (for example, if you notice that something you expected to happen isn't happening, your code may be getting skipped so you can add print statements to see if a certain block of code is being executed). One way to do that is using if/else if/else statements to check certain conditions and print different messages depending on the condition.
+
+        \nIf statements will always be at the start of a if tree, else if statements will be always after an if or another else if statement, and else statements will always be at the end of an if tree. You can think of it like a flowchart, the if statement is the first decision point, else if statements are the next decision points, and the else statement is the final option if none of the other conditions were met.
         
         Drag the following snippets to assemble the print statement logic to check battery voltage levels.`,
         codeBlocks: [
-          `if (batteryVoltage < 11.0) {
-          \nSystem.out.println("Low battery — reduce performance"); }`,
-          `else if (batteryVoltage < 12.0) {
-          \nSystem.out.println("Battery moderate — monitor"); }`,
-          `else {
-          \nSystem.out.println("Battery OK"); }`
+          "if (batteryVoltage < 11.0) {\nSystem.out.println('Low battery — reduce performance');\n}",
+          "else if (batteryVoltage < 12.0) { \nSystem.out.println('Battery moderate — monitor');\n}",
+          "else {\nSystem.out.println('Battery OK');\n}"
         ],
         solution: [
           `if (batteryVoltage < 11.0) {
@@ -61,14 +60,15 @@ export const tutorialData = [
         id: 3,
         title: "Methods & Parameters",
         type: "coding",
-        content: `Methods let you package behavior. For most methods that have the robot do actions you won't need to return a value so you will just use the "void" return type so you don't have to return anything. 
+        content: `Methods let you package behavior. For most methods that have the robot do actions you won't need to return a value so you will just use the "void" return type so you don't have to return anything. So for an action like driving forward you would create a method called driveAtSpeed that takes in a parameter for speed (double speed) and then within the method you would set the left and right motors to that speed, it would return nothing so you would use the void return type.
         
-        Drag the snippets to assemble a method that makes the robot drive forward.`,
+        Drag the snippets to assemble a method that makes the robot drive given a speed value supplied as a parameter.`,
         codeBlocks: [
-          `public void driveAtSpeed(double speed) {`,
-          `leftMotor.set(speed);
-           \nrightMotor.set(speed);`,
-          `}`
+          "public void driveAtSpeed(double speed) {",
+          "leftMotor.set(speed);\nrightMotor.set(speed);",
+          "}",
+          "leftMotor.set(1.0);\nrightMotor.set(1.0);"
+
           
         ],
         solution: [
@@ -123,9 +123,10 @@ export const tutorialData = [
 
 **Robot container:** connects subsystems to commands and input bindings
 
-Advantages:
-- Easier to test and reason about behaviors
-- Makes troubleshooting easier since mechanisms are isolated/organized by their subsystem or commands (ex. if one motor isn't moving how you expect it to move, you can look at the subsystem and command files that control the motor and see if there is an issue there rather than looking through a thousand lines of code in one file).`
+**Advantages:**
+
+-Easier to test and reason about behaviors
+\n-Makes troubleshooting easier since mechanisms are isolated/organized by their subsystem or commands (ex. if one motor isn't moving how you expect it to move, you can look at the subsystem and command files that control the motor and see if there is an issue there rather than looking through a thousand lines of code in one file).`
       },
       {
         id: 2,
@@ -137,7 +138,12 @@ Advantages:
         id: 3,
         title: "Writing a Subsystem",
         type: "lecture",
-        content: `A subsystem will contain a constructor method (which will be the name of the file/class) and a periodic method. When creating a subsystem you will mainly be creating your own methods that you will later call in your commands to make the robot do things. In your template class, you will create your speedcontrollers, sensors, and any other objects you need to control your mechanism within the subsystem (This will be done between the line that says "public class THENAMEOFTHECLASS extends SubsystemBase {" and the line that says "public THE NAMEOFTHECLASS() {"). You will then intialize these objects within the constructor method. Once this is done, you will create your methods below the periodic method that will control your mechanism (ex. moveArmUp(), moveArmDown(), stopArm(), etc...).`,
+        content: `A subsystem will contain a constructor method (which will be the name of the file/class) and a periodic method. When creating a subsystem you will mainly be creating your own methods that you will later call in your commands to make the robot do things. In your template class, you will create your speedcontrollers, sensors, and any other objects you need to control your mechanism within the subsystem. You will then intialize these objects within the constructor method. Once this is done, you will create your methods below the periodic method that will control your mechanism (ex. driveAtSpeed(), moveArmUp(), moveArmDown(), stopArm(), etc...).
+        
+        An example of a subsystem is shown below.`,
+        media: [
+          { type: "image", src: "/src/assets/media/subsystem_example.png", alt: "Subsystem Example" },
+        ],
       },
       {
         id: 4,
@@ -207,7 +213,16 @@ Advantages:
         id: 2,
         title: "Writing a Command - Buttons",
         type: "lecture",
-        content: `There are two ways we will primarily use commands, controlling them using buttons and controlling them using joysticks. When using buttons the simplest (yet tedious way) is to create a new command file for each individual action you want your robot to do. For example, if you are controlling a robot arm, the arm at its most basic level can do 2 things: move up, move down. So you will create 2 command files: one for moving the arm up and one for moving the arm down if you are using buttons to control the arm. To do this you will need to bring in the methods from your subsystem that you made earlier so you will use the addRequirements(RobotContainer.SUBSYSTEM_NAME) method within the constructor of your command file to bring in the subsystem. You will then call the method you will want to be used when a button is pressed within the execute() method of your command file. And then finally you will (usually) want to stop the mechanism when the button is released so you will call the stop method you made in your subsystem within the end() method of your command file.`,
+        content: `There are two ways we will primarily use commands, controlling them using buttons and controlling them using joysticks. When using buttons the simplest (yet tedious way) is to create a new command file for each individual action you want your robot to do. For example, if you are controlling a robot arm, the arm at its most basic level can do 2 things: move up, move down. So you will create 2 command files: one for moving the arm up and one for moving the arm down if you are using buttons to control the arm. 
+        
+        \nTo do this you will need to bring in the methods from your subsystem that you made earlier so you will use the addRequirements(RobotContainer.SUBSYSTEM_NAME) method within the constructor of your command file to bring in the subsystem. You will then call the method you will want to be used when a button is pressed within the execute() method of your command file. And then finally you will (usually) want to stop the mechanism when the button is released so you will call the stop method you made in your subsystem within the end() method of your command file.
+        
+        An example of a command is shown below. 
+        -This one makes an arm move up when the command is executed and stops the arm when the command ends. 
+        -You will need to do this for each action you want your mechanism to do when using buttons.`,
+        media: [
+          { type: "image", src: "/src/assets/media/command_button_example.png", alt: "Button Command Example" },
+        ],
       },
       {
         id: 3,
@@ -242,6 +257,9 @@ Advantages:
         title: "Writing a Command - Joysticks",
         type: "lecture",
         content: `Writing the command for joysticks is very similar to writing the command for buttons. The main difference is that you will be getting a value from the joystick axis in order to control the speed of the motor rather than having the motor go at a preset speed. This means that for your method you will have to create one that takes in a parameter/input variable (ex. moveArm(double speed)) rather than just having a method that makes the arm go up at a preset speed. In your command file you will need to create a joystick (Joystick JOYSTICK_NAME = new Joystick(JOYSTICK_ID)), this will be declared above the constructor and intialized within the constructor. You will then get the value of the axis you are using to control the mechanism within the execute() method by using JOYSTICK_NAME.getRawAxis(AXIS_ID) and passing that value into the method you made in your subsystem to control the mechanism. You will not need to put anything in the end() method as when using joysticks, the motor will not move when the joystick not being moved (as the value will be 0.0 unless there is stick drift and in that case get a new controller).`,
+        media: [
+          { type: "image", src: "/src/assets/media/command_joystick_example.png", alt: "Joystick Command Example" },
+        ],
       },
       {
         id: 5,
@@ -417,13 +435,31 @@ Advantages:
         id: 1,
         title: "Autonomous Best Practices",
         type: "lecture",
-        content: `The autonomous period in an FRC match lasts for 15 seconds where the robot operates without any driver input. This means that all actions are pre-programmed and rely on previous testing of the autonomous program/script to ensure the robot does what is expected as points during autonomous under most FRC rulesets are worth more than points during the teleoperated portion of the match. Safety is a big concern during autonomous testing as without driver input the robot may do unexpected actions that could be dangerous for the robot, game field/pieces, or people around the robot. ALWAYS make sure to let EVERYONE AROUND know when you are about to test a run of your autonomous script. In addition to that, you should also start by running the autonomous at less speed than you intend on running it at when you begin testing, this makes it so you see that the actions are being done correctly before you run it at a faster speed. On the topic of full speed, the robot's move fast, when the robot starts at full speed from a stopped position, the robot can lurch forward making it so the robot either doesn't go straight or can actually make your robot fall over if you have robot mechanisms fully extended (ex. arm straight up/robot elevator up high). To combat this you can either use a ramp rate method (CTRE/Talon speed controllers support this) or you can just have your autonomous not run at full speed (80-90% is still plenty fast for autonomous, if you must use 100% to have your auto finish in under 15 seconds, be careful). Finally, ALWAYS make sure someone is in the driver station application ready to disable the robot if something goes wrong. If the robot doesn't stop once disable is hit you might have to do an emergency stop on the robot by hitting the physical emergency stop button or power button on the robot, be knowledgeable about where these are on your robot before testing autonomous and prioritize your own safety and the safety of those around you over your robot.`
+        content: `
+        \nThe autonomous period in an FRC match lasts for 15 seconds where the robot operates without any driver input. This means that all actions are pre-programmed and rely on previous testing of the autonomous program/script to ensure the robot does what is expected as points during autonomous under most FRC rulesets are worth more than points during the teleoperated portion of the match. 
+
+        
+        \nSafety is a big concern during autonomous testing as without driver input the robot may do unexpected actions that could be dangerous for the robot, game field/pieces, or people around the robot. **ALWAYS** make sure to let **EVERYONE AROUND THE ROBOT** know when you are about to test a run of your autonomous script.
+
+
+        \nIn addition to that, you should also start by running the autonomous at less speed than you intend on running it at when you begin testing, this makes it so you see that the actions are being done correctly before you run it at a faster speed. On the topic of full speed, the robot's move fast, when the robot starts at full speed from a stopped position, the robot can lurch forward making it so the robot either doesn't go straight or can actually make your robot fall over if you have robot mechanisms fully extended (ex. arm straight up/robot elevator up high). To combat this you can either use a ramp rate method (CTRE/Talon speed controllers support this) or you can just have your autonomous not run at full speed (80-90% is still plenty fast for autonomous, if you must use 100% to have your auto finish in under 15 seconds, be careful). 
+        
+
+        \nFinally, **ALWAYS** make sure someone is in the driver station application ready to disable the robot if something goes wrong. If the robot doesn't stop once disable is hit you might have to do an emergency stop on the robot by hitting the physical emergency stop button or power button on the robot, be knowledgeable about where these are on your robot before testing autonomous and prioritize your own safety and the safety of those around you over your robot.`
       },
       {
         id: 2,
         title: "Making an Time-Based Autonomous Command Sequence",
         type: "lecture",
-        content: `Altough sensor-based autonomous is way more reliable and consistent (and super easy), time-based autonomous is where most teams start off with since they often don't either have the required sensors nor the knowledge to use them properly. Time-based autonomous works most often by using if statements within a command's execute() method to tell the robot what to do at certain time intervals. You will use a Timer object to keep track of how long the command has been running. You will declare/create this Timer object above the constructor and initialize it within the constructor. A VERY IMPORTANT step is to reset (TIMER_NAME.reset()) AND start the timer (TIMER_NAME.start()) within the initialize() method, this makes it so the timer starts counting from 0.0 seconds when the command starts running. To retrieve the value from the Timer object you will use the get() method (TIMER_NAME.get()) which returns a double value representing the number of seconds since the timer was started(). You would use an if/else if/else statement structure to tell the robot what to do at certain time intervals. It would look something like this if(timer.get() <2.0){ start driving forward } else if(2.0<timer.get() < 4.0){ stop drive forward & move arm out } else { stop arm} }. The reason why we will use either less/greater than (</>) or less than/equal to/greater than (<=/>=) is because sometimes the robot may not read a specific time value (ex. 2.0 seconds) due to how fast the code is running and how often the get() method is being called within execute() due to the command scheduler. Finally, remember to stop ALL MOTORS within the end() method of the command to make sure it stops moving at the end of autonomous or if the command has to end early for some reason.`,
+        content: `Altough sensor-based autonomous is way more reliable and consistent (and super easy), time-based autonomous is where most teams start off with since they often don't either have the required sensors nor the knowledge to use them properly. Time-based autonomous works most often by using if statements within a command's execute() method to tell the robot what to do at certain time intervals. You will use a Timer object to keep track of how long the command has been running. You will declare/create this Timer object above the constructor and initialize it within the constructor. 
+        
+        
+        \n**A VERY IMPORTANT** step is to reset (TIMER_NAME.reset()) AND start the timer (TIMER_NAME.start()) within the initialize() method, this makes it so the timer starts counting from 0.0 seconds when the command starts running. To retrieve the value from the Timer object you will use the get() method (TIMER_NAME.get()) which returns a double value representing the number of seconds since the timer was started(). You would use an if/else if/else statement structure to tell the robot what to do at certain time intervals. It would look something like this
+        
+        
+        \n"if(timer.get() <2.0){ start driving forward } else if(2.0<timer.get() < 4.0){ stop drive forward & move arm out } else { stop arm} }". 
+        
+        \nThe reason why we will use either less/greater than (</>) or less than/equal to/greater than (<=/>=) is because sometimes the robot may not read a specific time value (ex. 2.0 seconds) due to how fast the code is running and how often the get() method is being called within execute() due to the command scheduler. Finally, remember to stop ALL MOTORS within the end() method of the command to make sure it stops moving at the end of autonomous or if the command has to end early for some reason.`,
       },
       {
         id: 3,
@@ -432,46 +468,19 @@ Advantages:
         content: "Check your understanding of timers and command structure.",
         question: "In this activity, which set of code will have the robot go forward for two seconds, then turn right with a tank control drivetrain method (tankDrive(leftSpeed, rightSpeed)) [assume it takes 1.5 seconds to turn 90 degrees at 100 percent speed] then go forward again for 2 seconds and then stop?",
         options: {
-          a: `drivetrain.tankDrive(1.0, 1.0);
-              \nif(timer.get() >2.0 && timer.get() <=2.1){
-              \ndrivetrain.tankDrive(0.0, 0.0);
-              \ndrivetrain.tankDrive(1.0, -1.0);}
-              else if(timer.get() >3.6 && timer.get() <=3.7){
-              \ndrivetrain.tankDrive(0.0, 0.0);
-              \ndrivetrain.tankDrive(-1.0, -1.0);}
-              else if(timer.get() >5.7){
-              \ndrivetrain.tankDrive(0.0, 0.0);}`,
-          b: `drivetrain.tankDrive(1.0, 1.0);
-              if(timer.get() >2.0 && timer.get() <=2.1){
-              \ndrivetrain.tankDrive(0.0, 0.0);
-              \ndrivetrain.tankDrive(-1.0, 1.0);}
-              else if(timer.get() >3.6 && timer.get() <=3.7){
-              \ndrivetrain.tankDrive(0.0, 0.0);
-              \ndrivetrain.tankDrive(1.0, 1.0);}
-              else if(timer.get() >5.7){
-              \ndrivetrain.tankDrive(0.0, 0.0);}`,
-          c: `drivetrain.tankDrive(1.0, 1.0);
-              if(timer.get() >2.0 && timer.get() <=2.1){
-              \ndrivetrain.tankDrive(0.0, 0.0);
-              \ndrivetrain.tankDrive(1.0, -1.0);}
-              else if(timer.get() >3.6 && timer.get() <=3.7){
-              \ndrivetrain.tankDrive(0.0, 0.0);
-              \ndrivetrain.tankDrive(1.0, 1.0);}
-              else if(timer.get() >8.7){
-              \ndrivetrain.tankDrive(0.0, 0.0);}`,
-          d: `drivetrain.tankDrive(1.0, 1.0);
-              if(timer.get() >2.0 && timer.get() <=2.1){
-              \ndrivetrain.tankDrive(0.0, 0.0);
-              \ndrivetrain.tankDrive(1.0, -1.0);}
-              else if(timer.get() >3.6 && timer.get() <=3.7){
-              \ndrivetrain.tankDrive(0.0, 0.0);
-              \ndrivetrain.tankDrive(1.0, 1.0);}
-              else if(timer.get() >5.7){
-              \ndrivetrain.tankDrive(0.0, 0.0);}`
+          a: "drivetrain.tankDrive(1.0, 1.0); \nif(timer.get() >2.0 && timer.get() <=2.1){ \ndrivetrain.tankDrive(0.0, 0.0); \ndrivetrain.tankDrive(-1.0, 1.0);} \nelse if(timer.get() >3.6 && timer.get() <=3.7){ \ndrivetrain.tankDrive(0.0, 0.0); \ndrivetrain.tankDrive(1.0, 1.0);} \nelse if(timer.get() >5.7){ \ndrivetrain.tankDrive(0.0, 0.0);}",
+          b: "drivetrain.tankDrive(1.0, 1.0); \nif(timer.get() >2.0 && timer.get() <=2.1){\ndrivetrain.tankDrive(0.0, 0.0);\ndrivetrain.tankDrive(-1.0, 1.0);} \nelse if(timer.get() >3.6 && timer.get() <=3.7){\ndrivetrain.tankDrive(0.0, 0.0);\ndrivetrain.tankDrive(1.0, 1.0);} \nelse if(timer.get() >5.7){\ndrivetrain.tankDrive(0.0, 0.0);}",
+          c: "drivetrain.tankDrive(1.0, 1.0); \nif(timer.get() >2.0 && timer.get() <=2.1){ \ndrivetrain.tankDrive(0.0, 0.0);\ndrivetrain.tankDrive(1.0, -1.0);} \nelse if(timer.get() >3.6 && timer.get() <=3.7){ \ndrivetrain.tankDrive(0.0, 0.0);\ndrivetrain.tankDrive(1.0, 1.0);} \nelse if(timer.get() >8.7){ \ndrivetrain.tankDrive(0.0, 0.0);}",
+          d: "drivetrain.tankDrive(1.0, 1.0); \nif(timer.get() >2.0 && timer.get() <=2.1){ \ndrivetrain.tankDrive(0.0, 0.0); \ndrivetrain.tankDrive(1.0, -1.0);} \nelse if(timer.get() >3.6 && timer.get() <=3.7){ \ndrivetrain.tankDrive(0.0, 0.0); \ndrivetrain.tankDrive(1.0, 1.0);} \nelse if(timer.get() >5.7){ \ndrivetrain.tankDrive(0.0, 0.0);}"
         },
         correctAnswer: "d",
         explanation:
-          ""
+          "",
+        optionVideos: {
+    a: { type: "video", src: "https://www.youtube.com/embed?v=jQjjqEjZK58&themeRefresh=1" },
+    b: { type: "video", src: "https://www.youtube.com/embed?v=hkHHwA-vEyQ" },
+    c: { type: "video", src: "https://www.youtube.com/embed/9mv4nd3P8nk" }
+  }
       }
       
     ]
