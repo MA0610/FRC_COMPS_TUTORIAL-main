@@ -6,6 +6,9 @@ import Header from "./components/Common/Header";
 import TutorialList from "./components/Tutorial/TutorialList";
 import { useProgress } from "./hooks/useProgress";
 import ReactMarkdown from "react-markdown";
+import remarkBreaks from "remark-breaks";
+import rehypeRaw from "rehype-raw";
+import rehypeSanitize from "rehype-sanitize";
 import { DndContext, useDraggable, useDroppable, closestCenter } from "@dnd-kit/core";
 import { SortableContext, useSortable, arrayMove, rectSortingStrategy } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
@@ -180,7 +183,10 @@ const QuizView = ({ lesson, onAnswer, userAnswer, isCorrect, showResult }) => {
   return (
     <div style={{ padding: "20px"}}>
       <h3>{lesson.title}</h3>
-      <ReactMarkdown>{lesson.content}</ReactMarkdown>
+      
+  <ReactMarkdown remarkPlugins={[remarkBreaks]} rehypePlugins={[rehypeRaw, rehypeSanitize]}>
+    {lesson.content}
+  </ReactMarkdown>
       <MediaDisplay media={lesson.media} title={lesson.title} />
       <div style={{ marginBottom: "20px" }}>
         <h4>Question:</h4>
@@ -415,7 +421,11 @@ const CodingView = ({
         }}
       >
         <h3>{lesson.title}</h3>
-        <ReactMarkdown>{lesson.content}</ReactMarkdown>
+        <div style={{ textAlign: "left", maxWidth: 800, margin: "0 auto" }}>
+  <ReactMarkdown remarkPlugins={[remarkBreaks]} rehypePlugins={[rehypeRaw, rehypeSanitize]}>
+    {lesson.content}
+  </ReactMarkdown>
+</div>        
         <MediaDisplay media={lesson.media} title={lesson.title} />
 
         {feedback && (
@@ -621,7 +631,11 @@ const [feedback, setFeedback] = useState("");
           }}
         >
           <h3>{lesson.title}</h3>
-          <ReactMarkdown>{lesson.content}</ReactMarkdown>
+          <div style={{ textAlign: "left", maxWidth: 800, margin: "0 auto" }}>
+  <ReactMarkdown remarkPlugins={[remarkBreaks]} rehypePlugins={[rehypeRaw, rehypeSanitize]}>
+    {lesson.content}
+  </ReactMarkdown>
+</div>
           <MediaDisplay media={lesson.media} title={lesson.title} />
         </div>
       )}
