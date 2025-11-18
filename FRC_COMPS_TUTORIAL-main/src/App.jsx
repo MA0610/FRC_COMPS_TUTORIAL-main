@@ -470,7 +470,9 @@ const CodingView = ({
               marginTop: "10px",
             }}
           >
-            {lesson.solution.join("\n")}
+            <div style={{ textAlign: "left", maxWidth: 800, margin: "0 auto" }}>
+              {lesson.solution.join("\n")}
+            </div>
           </pre>
         )}
       </div>

@@ -40,7 +40,7 @@ export const tutorialData = [
         content: `Print statements are ways that the user can get feedback from their code within the terminal. This can be helpful to help debug code so you can see the flow of code execution (for example, if you notice that something you expected to happen isn't happening, your code may be getting skipped so you can add print statements to see if a certain block of code is being executed). One way to do that is using if/else if/else statements to check certain conditions and print different messages depending on the condition.
 
         \nIf statements will always be at the start of a if tree, else if statements will be always after an if or another else if statement, and else statements will always be at the end of an if tree. You can think of it like a flowchart, the if statement is the first decision point, else if statements are the next decision points, and the else statement is the final option if none of the other conditions were met.
-        
+              
         Drag the following snippets to assemble the print statement logic to check battery voltage levels.`,
         codeBlocks: [
           "if (batteryVoltage < 11.0) {\nSystem.out.println('Low battery — reduce performance');\n}",
@@ -48,12 +48,9 @@ export const tutorialData = [
           "else {\nSystem.out.println('Battery OK');\n}"
         ],
         solution: [
-          `if (batteryVoltage < 11.0) {
-          \nSystem.out.println("Low battery — reduce performance"); }`,
-          `else if (batteryVoltage < 12.0) {
-          \nSystem.out.println("Battery moderate — monitor"); }`,
-          `else {
-          \nSystem.out.println("Battery OK"); }`
+          "if (batteryVoltage < 11.0) {\nSystem.out.println('Low battery — reduce performance');\n}",
+          "else if (batteryVoltage < 12.0) { \nSystem.out.println('Battery moderate — monitor');\n}",
+          "else {\nSystem.out.println('Battery OK');\n}"
         ]
       },
       {
@@ -72,10 +69,9 @@ export const tutorialData = [
           
         ],
         solution: [
-          `public void driveAtSpeed(double speed) {`,
-          `leftMotor.set(speed);
-           \nrightMotor.set(speed);`,
-          `}`
+          "public void driveAtSpeed(double speed) {",
+          "leftMotor.set(speed);\nrightMotor.set(speed);",
+          "}",
           
         ]
       },
@@ -151,28 +147,24 @@ export const tutorialData = [
         type: "coding",
         content: `Drag snippets to assemble a Drivetrain subsystem with TalonFX speed controllers with a tankDrive method to control the robot and a stop method to halt the motors.`,
         codeBlocks: [
-          'public class Drivetrain extends SubsystemBase {',
-          'TalonFX left, right;',
-          'public Drivetrain() {',
-          'left = new TalonFX(0);',
-          'right = new TalonFX(1);}',
-          'public void periodic() {}',   
-          'public void tankDrive(double leftSpeed, double rightSpeed) {',
-          'left.set(leftSpeed); right.set(rightSpeed); }',
-          'public void stop() {',
-          'left.set(0); right.set(0); }',
+          "public class Drivetrain extends SubsystemBase {'",
+          "TalonFX left, right;",
+          "public Drivetrain() {",
+          "left = new TalonFX(0);\nright = new TalonFX(1);}",
+          "public void tankDrive(double leftSpeed, double rightSpeed) {",
+          "left.set(leftSpeed);\nright.set(rightSpeed); }",
+          "public void stop() {",
+          "left.set(0);\nright.set(0); }",
         ],
         solution: [
-          'public class Drivetrain extends SubsystemBase {',
-          'TalonFX left, right;',
-          'public Drivetrain() {',
-          'left = new TalonFX(0);',
-          'right = new TalonFX(1);}',
-          'public void periodic() {}',   
-          'public void tankDrive(double leftSpeed, double rightSpeed) {',
-          'left.set(leftSpeed); right.set(rightSpeed); }',
-          'public void stop() {',
-          'left.set(0); right.set(0); }',
+          "public class Drivetrain extends SubsystemBase {'",
+          "TalonFX left, right;",
+          "public Drivetrain() {",
+          "left = new TalonFX(0);\nright = new TalonFX(1);}",
+          "public void tankDrive(double leftSpeed, double rightSpeed) {",
+          "left.set(leftSpeed);\nright.set(rightSpeed); }",
+          "public void stop() {",
+          "left.set(0);\nright.set(0); }",
         ]
       },
       
@@ -214,7 +206,7 @@ export const tutorialData = [
         title: "Writing a Command - Buttons",
         type: "lecture",
         content: `There are two ways we will primarily use commands, controlling them using buttons and controlling them using joysticks. When using buttons the simplest (yet tedious way) is to create a new command file for each individual action you want your robot to do. For example, if you are controlling a robot arm, the arm at its most basic level can do 2 things: move up, move down. So you will create 2 command files: one for moving the arm up and one for moving the arm down if you are using buttons to control the arm. 
-        
+        <br/><br/>
         \nTo do this you will need to bring in the methods from your subsystem that you made earlier so you will use the addRequirements(RobotContainer.SUBSYSTEM_NAME) method within the constructor of your command file to bring in the subsystem. You will then call the method you will want to be used when a button is pressed within the execute() method of your command file. And then finally you will (usually) want to stop the mechanism when the button is released so you will call the stop method you made in your subsystem within the end() method of your command file.
         
         An example of a command is shown below. 
@@ -230,24 +222,23 @@ export const tutorialData = [
         type: "coding",
         content: `Drag snippets to assemble a MoveArmUp command that calls the Arm subsystem's moveArmUp() method and requires the Arm subsystem.`,
         codeBlocks: [
-           `public class moveArmUpCommand extends Command{
-          \npublic moveArmUpCommand(){`,
-          `addRequirements(RobotContainer.armSubystem); }`,
-          `public void execute(){`,
-          `RobotContainer.armSubsystem.moveArmUp(); }`,
-          `RobotContainer.armSubsystem.stopArmDown(); }`,
-          `public void end(boolean interrupted){`,
-          `RobotContainer.armSubsystem.stopArm(); }`,
-          
+           "public class moveArmUpCommand extends Command{",
+          "public moveArmUpCommand(){",
+          "addRequirements(RobotContainer.armSubsystem); }",
+          "public void execute(){",
+          "RobotContainer.armSubsystem.moveArmUp(); }",
+          "public void end(boolean interrupted){",
+          "RobotContainer.armSubsystem.stopArm(); }",
+
         ],
         solution: [
-          `public class moveArmUpCommand extends Command{
-          \npublic moveArmUpCommand(){`,
-          `addRequirements(RobotContainer.armSubystem); }`,
-          `public void execute(){`,
-          `RobotContainer.armSubsystem.moveArmUp(); }`,
-          `public void end(boolean interrupted){`,
-          `RobotContainer.armSubsystem.stopArm(); }`,
+          "public class moveArmUpCommand extends Command{",
+          "public moveArmUpCommand(){",
+          "addRequirements(RobotContainer.armSubsystem); }",
+          "public void execute(){",
+          "RobotContainer.armSubsystem.moveArmUp(); }",
+          "public void end(boolean interrupted){",
+          "RobotContainer.armSubsystem.stopArm(); }",
         
 
         ]
@@ -268,27 +259,27 @@ export const tutorialData = [
         type: "coding",
         content: `Drag snippets to assemble a moveArmCommand that reads joystick axis 1 and calls the Arm subsystem's moveArm(double speed) method.`,
         codeBlocks: [
-          `public class moveArmCommand extends Command{`,
-          `Joystick driverJoystick;`,
-          `public moveArmCommand(){
-           \ndriverJoystick = new Joystick(1);}`,
-          `public void execute(){`,
-          `RobotContainer.armSubsystem.moveArm(driverJoystick.getRawAxis(1));}`,
-          `public void end(boolean interrupted){`,
-          `RobotContainer.armSubsystem.stopArm();`,
-          `}`,
+          "public class moveArmCommand extends Command{",
+          "Joystick driverJoystick;",
+          "public moveArmCommand(){",
+          "driverJoystick = new Joystick(1);}",
+          "public void execute(){",
+          "RobotContainer.armSubsystem.moveArm(driverJoystick.getRawAxis(1));}",
+          "public void end(boolean interrupted){",
+          "RobotContainer.armSubsystem.stopArm();\n}",
         
           
         ],
         solution: [
-          `public class moveArmCommand extends Command{`,
-          `Joystick driverJoystick;`,
-          `public moveArmCommand(){
-           \ndriverJoystick = new Joystick(1);}`,
-          `public void execute(){`,
-          `RobotContainer.armSubsystem.moveArm(driverJoystick.getRawAxis(1));}`,
-          `public void end(boolean interrupted){`,
-          `}`,
+          "public class moveArmCommand extends Command{",
+          "Joystick driverJoystick;",
+          "public moveArmCommand(){",
+          "driverJoystick = new Joystick(1);}",
+          "public void execute(){",
+          "RobotContainer.armSubsystem.moveArm(driverJoystick.getRawAxis(1));}",
+          "public void end(boolean interrupted){",
+          "RobotContainer.armSubsystem.stopArm();\n}",
+
 
         ]
       },
@@ -318,21 +309,21 @@ export const tutorialData = [
         type: "lecture",
         content: `There are many different types of sensors used in robotics, each with its own specific purpose. Some common types of sensors include:
 
-        - Limit Switches:
-          Pros: Simple and reliable for detecting the presence or absence of an object. .
-          Cons: Can only detect the presence or absence of an object, not its distance. May wear out over time with mechanical use (these get pressed a lot)
+        \n**Limit Switches:**
+        *Pros:* Simple and reliable for detecting the presence or absence of an object.
+        *Cons:* Can only detect the presence or absence of an object, not its distance. May wear out over time with mechanical use (these get pressed a lot)
 
-        - Ultrasonic Sensors: 
-          Pros: Measure distance to an object using sound waves. Useful for obstacle detection and avoidance.
-          Cons: Can be affected by environmental noise (things happening around the sensor that can intefere with the sound waves), can have a limited range, and may struggle with soft or angled surfaces.
+        \n**Ultrasonic Sensors:**
+        *Pros:* Measure distance to an object using sound waves. Useful for obstacle detection and avoidance.
+        *Cons:* Can be affected by environmental noise (things happening around the sensor that can intefere with the sound waves), can have a limited range, and may struggle with soft or angled surfaces.
 
-        - Gyroscopes:
-          Pros: Measure rotational motion and orientation. Useful for maintaining balance and navigation/robot heading(which way the robot is facing).
-          Cons: Can drift over time, requiring calibration. May be sensitive to vibrations.
+        \n**Gyroscopes:**
+        *Pros:* Measure rotational motion and orientation. Useful for maintaining balance and navigation/robot heading(which way the robot is facing).
+        *Cons:* Can drift over time, requiring calibration. May be sensitive to vibrations.
 
-        - Encoders:
-          Pros: Measure rotational position and speed of motors or wheels (in a measure called ticks, each encoder may have a different ratio for how many ticks there are per rotation of the axle). Useful for precise movement control and distance measurement. Also makes consistent movements less dependent on battery voltage levels.
-          Cons: Can be affected by slippage or mechanical issues. May require additional hardware for installation (ex. be built into a speed controller, or external mounting brackets/account for spacing to insert encoder on a shaft within mechanism).`
+        \n**Encoders:**
+        *Pros:* Measure rotational position and speed of motors or wheels (in a measure called ticks, each encoder may have a different ratio for how many ticks there are per rotation of the axle). Useful for precise movement control and distance measurement. Also makes consistent movements less dependent on battery voltage levels.
+        *Cons:* Can be affected by slippage or mechanical issues. May require additional hardware for installation (ex. be built into a speed controller, or external mounting brackets/account for spacing to insert encoder on a shaft within mechanism).`
 
       },
       {
@@ -355,14 +346,26 @@ export const tutorialData = [
         id: 3,
         title: "Limit Switch - Activity",
         type: "coding",
-        content: `Limit switches are simple sensors that act as a flag to tell the robot to do/not do something/stop when the limit switch is pressed. They are commonly used to prevent a mechanism to move past a certain point to stop them from breaking. Limit switches give a boolean value (true/false) depending on whether they are pressed or not. In this activity drag the snippets to assemble code that stops a robot arm from moving up if the upper limit switch is pressed (the value is true).`,
+        content: `Limit switches are simple sensors that act as a flag to tell the robot to do/not do something/stop when the limit switch is pressed. They are commonly used to prevent a mechanism to move past a certain point to stop them from breaking. Limit switches give a boolean value (true/false) depending on whether they are pressed or not. 
+        
+        Drag the snippets to assemble a method that moves a robot arm up (at a preset speed) 
+        until a limit switch is pressed (when the value is true), at which point the arm will stop moving up. 
+        Assume the limit switch is already initialized as "limitSwitch".`,
         codeBlocks: [
-           ``,
-          
+          "public void moveArmUpUntilLimit() {",
+          "if (limitSwitch.get()) {",
+          "armMotor.set(0);}",
+          "else {",
+          "armMotor.set(1.0);}",
+          "else if(!limitSwitch.get()) {",
         ],
         solution: [
-          ``,
-        
+          "public void moveArmUpUntilLimit() {",
+          "if (limitSwitch.get()) {",
+          "armMotor.set(0);}",
+          "else {",
+          "armMotor.set(1.0);}",
+
 
         ]
       },
@@ -372,15 +375,24 @@ export const tutorialData = [
         type: "coding",
         content: `Encoders are sensors that measure the rotation of a motor/axle in ticks. They are used to determine the position of a mechanism or see how far a robot has traveled. Each encoder brand may have a different ratio for how many ticks there are per rotation of the axle. Keep in mind, a rotation of the axle DOES NOT ALWAYS equal a rotation of the mechanism (ex. an arm) as there may be gears or other mechanisms in between the motor and the mechanism. When making a command with encoders you will have a method in your subsystem which returns the value of the encoder (in ticks converted to rotations) and then in your command you will use that value to determine when to stop moving the mechanism using an if statement. You can also make the command implement the "isFinished()" method to automatically stop the command when the condition is met. This will make it so the command will not work again because the value will still be true, so you will need to use this very carefully (ex. Use encoders for one time movements on a button like moving the arm to a certain position).
         
-        In this activity drag the snippets to assemble code that moves a robot arm up until it reaches 500 ticks on the encoder.`,
+        In this activity drag the snippets to assemble a method that moves a 
+        robot arm up until it reaches 500 ticks on the encoder.`,
         codeBlocks: [
-           ``,
+          "public void moveArmUpUntil500Ticks() {",
+          "if (armEncoder.get() >= 500) {",
+          "armMotor.set(1.0);}",
+          "else {",
+          "armMotor.set(0);}",
+          "if (armEncoder.get() < 500) {",
+          "if (armEncoder.get() <= 500) {",
           
         ],
         solution: [
-          ``,
-        
-
+          "public void moveArmUpUntil500Ticks() {",
+          "if (armEncoder.get() >= 500) {",
+          "armMotor.set(1.0);}",
+          "else {",
+          "armMotor.set(0);}",
         ]
       },
       {
@@ -389,13 +401,25 @@ export const tutorialData = [
         type: "coding",
         content: `Gyroscopes are sensors that measure the orientation of the robot (yaw, pitch, roll). They are commonly used to help the robot maintain a certain heading or balance. These are especially useful for swerve/holonomic drive robots as they can help the robot maintain a certain orientation while moving in different directions. They have also been used in previous seasons to help keep the robot balanced on a balance board. Like encoders you will typically set up a get method to get the yaw, pitch, or roll value of the gyroscope and use that in an if statement or in a complicated formula in the case of swerve drive (swerve will not be covered here but if you are interested use the YAGSL- Yet Another Generic Swerve Library or the example templates made by CTRE). 
         
-        In this activity drag the snippets to assemble code that makes the robot drive forward while maintaining a heading of 0 degrees using a gyroscope.`,
+        In this activity drag the snippets to assemble a method that makes the robot do a 90 degree
+        turn to the right using a gyroscope.`,
+        media: [
+          { type: "image", src: "/src/assets/media/yaw-pitch-roll-diagram.png", alt: "Yaw-Pitch-Roll Diagram" },
+        ],
         codeBlocks: [
-           ``,
+           "public void turnRight90Degrees() {",
+           "driveTrain.tankDrive(1.0, -1.0);",
+           "if (gyro.getYaw() >= 90) {",
+           "driveTrain.tankDrive(0.0, 0.0);}",
+           "if (gyro.getPitch() >= 90) {",
+           "if (gyro.getRoll() >= 90) {",
           
         ],
         solution: [
-          ``,
+          "public void turnRight90Degrees() {",
+           "driveTrain.tankDrive(1.0, -1.0);",
+           "if (gyro.getYaw() >= 90) {",
+           "driveTrain.tankDrive(0.0, 0.0);}",
         
 
         ]
@@ -406,13 +430,22 @@ export const tutorialData = [
         type: "coding",
         content: `Ultrasonic sensors measure the distance from the sensor to an object using sound waves. They are most often used for obstacle detection and avoidance, nowadays they are less often used in FRC due to the prevalance of vision systems but are pretty simple to use and understand so they are a good starting point if you don't understand smart vision systems like those seen with Limelight or PhotonVision. Ultrasonics typically have a getDistance() or getRange() method that returns the distance to the nearest object in either inches, centimeters, or milimeters depending on the model of ultrasonic being used. You will use this value in an if statement or isFinished() method of a command to dictate when an action should start or stop. 
         
-        In this activity drag the snippets to assemble code that makes the robot stop if it gets within 12 inches of an obstacle while driving forward.`,
+        In this activity drag the snippets to assemble a method that makes the robot drive forward until
+        it is 12 inches away from an obstacle/object using an ultrasonic sensor.`,
         codeBlocks: [
-           ``,
-          
+          "public void driveForwardUntilObstacle() {",
+          "driveTrain.tankDrive(1.0, 1.0);",
+          "if (ultrasonic.getRangeInches() <= 12) {",
+          "driveTrain.tankDrive(0.0, 0.0);}",
+          "if (ultrasonic.getRangeCM() <= 12) {",
+          "if (ultrasonic.getRangeMM() <= 12) {",     
         ],
         solution: [
-          ``,
+          "public void driveForwardUntilObstacle() {",
+          "driveTrain.tankDrive(1.0, 1.0);",
+          "if (ultrasonic.getRangeInches() <= 12) {",
+          "driveTrain.tankDrive(0.0, 0.0);}",
+
         
 
         ]
