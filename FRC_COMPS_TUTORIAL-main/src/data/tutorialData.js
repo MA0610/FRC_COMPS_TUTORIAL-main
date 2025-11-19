@@ -503,18 +503,54 @@ export const tutorialData = [
         question: "In this activity, which set of code will have the robot go forward for two seconds, then turn right with a tank control drivetrain method (tankDrive(leftSpeed, rightSpeed)) [assume it takes 1.5 seconds to turn 90 degrees at 100 percent speed] then go forward again for 2 seconds and then stop?",
         options: {
           a: "drivetrain.tankDrive(1.0, 1.0); \nif(timer.get() >2.0 && timer.get() <=2.1){ \ndrivetrain.tankDrive(0.0, 0.0); \ndrivetrain.tankDrive(-1.0, 1.0);} \nelse if(timer.get() >3.6 && timer.get() <=3.7){ \ndrivetrain.tankDrive(0.0, 0.0); \ndrivetrain.tankDrive(1.0, 1.0);} \nelse if(timer.get() >5.7){ \ndrivetrain.tankDrive(0.0, 0.0);}",
-          b: "drivetrain.tankDrive(1.0, 1.0); \nif(timer.get() >2.0 && timer.get() <=2.1){\ndrivetrain.tankDrive(0.0, 0.0);\ndrivetrain.tankDrive(-1.0, 1.0);} \nelse if(timer.get() >3.6 && timer.get() <=3.7){\ndrivetrain.tankDrive(0.0, 0.0);\ndrivetrain.tankDrive(1.0, 1.0);} \nelse if(timer.get() >5.7){\ndrivetrain.tankDrive(0.0, 0.0);}",
-          c: "drivetrain.tankDrive(1.0, 1.0); \nif(timer.get() >2.0 && timer.get() <=2.1){ \ndrivetrain.tankDrive(0.0, 0.0);\ndrivetrain.tankDrive(1.0, -1.0);} \nelse if(timer.get() >3.6 && timer.get() <=3.7){ \ndrivetrain.tankDrive(0.0, 0.0);\ndrivetrain.tankDrive(1.0, 1.0);} \nelse if(timer.get() >8.7){ \ndrivetrain.tankDrive(0.0, 0.0);}",
+          b: "int stepCount = 0; \ndrivetrain.tankDrive(1.0,1.0); \nif(stepCount==0 && timer.get() >2.0){ \ndrivetrain.tankDrive(0.0,0.0); \ndrivetrain.tankDrive(1.0, -1.0); \nstepCount++;} \ntimer.reset(); \nif(stepCount==1 && timer.get()>1.5){ \ndrivetrain.tankDrive(0.0,0.0); \ndrivetrain.tankDrive(1.0, 1.0); \nstepCount++;} \ntimer.reset(); \nif(stepCount==2 && timer.get()>2.0){ \ndrivetrain.tankDrive(0.0,0.0);}",
+          c: "drivetrain.tankDrive(1.0, 1.0); \nif(timer.get() >2.0 && timer.get() <=2.1){\ndrivetrain.tankDrive(0.0, 0.0);\ndrivetrain.tankDrive(1.0, 1.0);} \nelse if(timer.get() >3.6 && timer.get() <=3.7){\ndrivetrain.tankDrive(0.0, 0.0);\ndrivetrain.tankDrive(1.0, 1.0);} \nelse if(timer.get() >5.7){\ndrivetrain.tankDrive(0.0, 0.0);}",
           d: "drivetrain.tankDrive(1.0, 1.0); \nif(timer.get() >2.0 && timer.get() <=2.1){ \ndrivetrain.tankDrive(0.0, 0.0); \ndrivetrain.tankDrive(1.0, -1.0);} \nelse if(timer.get() >3.6 && timer.get() <=3.7){ \ndrivetrain.tankDrive(0.0, 0.0); \ndrivetrain.tankDrive(1.0, 1.0);} \nelse if(timer.get() >5.7){ \ndrivetrain.tankDrive(0.0, 0.0);}"
         },
-        correctAnswer: "d",
+        correctAnswer: "b",
+        correctAnswerTwo: "d",
+
         explanation:
           "",
         optionVideos: {
-    a: { type: "video", src: "https://www.youtube.com/embed?v=jQjjqEjZK58&themeRefresh=1" },
-    b: { type: "video", src: "https://www.youtube.com/embed?v=hkHHwA-vEyQ" },
-    c: { type: "video", src: "https://www.youtube.com/embed/9mv4nd3P8nk" }
-  }
+          a: { type: "video", src: "https://www.youtube.com/embed?v=jQjjqEjZK58&themeRefresh=1" },
+          b: { type: "video", src: "https://www.youtube.com/embed?v=hkHHwA-vEyQ" },
+          c: { type: "video", src: "https://www.youtube.com/embed/9mv4nd3P8nk" }
+        },
+        optionExplanations: {
+          a: "This makes the robot turn left instead of right. To turn right with tank drive, the left side motors need to go forward(positive) and the right side motors need to go backward(negative).",
+          b: "This does what is asked, this way of doing it is sometimes useful if you want to make sure you are not doing as much math to count up how much time is for each action. But it does require resetting the timer after each action and adding a step counter variable. We would need to do a step counter variable because since we are resetting the timer, due to the way the command scheduler works on command files, the code will loop back to the first if statement after the timer is reset and we need a way to make sure we are on the correct step of the autonomous sequence.",
+          c: "This just makes the robot go forward for 4 seconds, it never turns since all the motor values are positive.",
+          d: "This does what is asked, this is the most straightforward way of doing it using only time values. The only potential downside with this way is that it requires you to do more math (simple addition mind you) to figure out what time values to use for each if statement."
+        }
+      },
+      {
+        id: 4,
+        title: "Encoder-Based Autonomous — Quiz",
+        type: "quiz",
+        content: "Check your understanding of encoders and how to use them in autonomous.",
+        question: "In this activity, which set of code will have the robot go forward for 10 rotations of the drivetrain (assume the get function getEncoderValue() converts the encoder value into rotations instead of ticks for you) then turn right 180 degrees (assume turning 90 degrees requires 3 rotations on the left side and -3 rotations on the right side) then go forward again for 8 rotations and then stop?",
+        options: {
+          a: "int stepCount = 0; \ndrivetrain.tankDrive(1.0,1.0); \nif(stepCount==0 && getEncoderValue()>=10){ \ndrivetrain.tankDrive(0.0,0.0); \ndrivetrain.tankDrive(-1.0, 1.0); \nstepCount++;} \nresetEncoder(); \nif(stepCount==1 && getEncoderValue()>=6){ \ndrivetrain.tankDrive(0.0,0.0); \ndrivetrain.tankDrive(1.0, 1.0); \nstepCount++;} \nresetEncoder(); \nif(stepCount==2 && getEncoderValue()>8){ \ndrivetrain.tankDrive(0.0,0.0);}",
+          b: "int stepCount = 0; \ndrivetrain.tankDrive(1.0,1.0); \nif(stepCount==0 && getEncoderValue()>=10){ \ndrivetrain.tankDrive(0.0,0.0); \ndrivetrain.tankDrive(-1.0, 1.0); \nstepCount++;} \nresetEncoder(); \nif(stepCount==1 && getEncoderValue()>=3){ \ndrivetrain.tankDrive(0.0,0.0); \ndrivetrain.tankDrive(1.0, 1.0); \nstepCount++;} \nresetEncoder(); \nif(stepCount==2 && getEncoderValue()>8){ \ndrivetrain.tankDrive(0.0,0.0);}",
+          c: "int stepCount = 0; \ndrivetrain.tankDrive(1.0,1.0); \nif(stepCount==0 && getEncoderValue()>=3){ \ndrivetrain.tankDrive(0.0,0.0); \ndrivetrain.tankDrive(-1.0, 1.0); \nstepCount++;} \nresetEncoder(); \nif(stepCount==1 && getEncoderValue()>=6){ \ndrivetrain.tankDrive(0.0,0.0); \ndrivetrain.tankDrive(1.0, 1.0); \nstepCount++;} \nresetEncoder(); \nif(stepCount==2 && getEncoderValue()>8){ \ndrivetrain.tankDrive(0.0,0.0);}",
+          d: "int stepCount = 0; \ndrivetrain.tankDrive(1.0,1.0); \nif(stepCount==0 && getEncoderValue()>=10){ \ndrivetrain.tankDrive(0.0,0.0); \ndrivetrain.tankDrive(-1.0, 1.0); \nstepCount++;} \nresetEncoder(); \nif(stepCount==1 && getEncoderValue()>=6){ \ndrivetrain.tankDrive(0.0,0.0); \ndrivetrain.tankDrive(1.0, 1.0); \nstepCount++;} \nresetEncoder(); \nif(stepCount==2 && getEncoderValue()>6){ \ndrivetrain.tankDrive(0.0,0.0);}"
+        },
+        correctAnswer: "a",
+
+        explanation:
+          "",
+        optionVideos: {
+          a: { type: "video", src: "https://www.youtube.com/embed?v=jQjjqEjZK58&themeRefresh=1" },
+          b: { type: "video", src: "https://www.youtube.com/embed?v=hkHHwA-vEyQ" },
+          c: { type: "video", src: "https://www.youtube.com/embed/9mv4nd3P8nk" }
+        },
+        optionExplanations: {
+          a: "This does what is asked, similar to the previous timer-based autonomous quiz option B, this way uses a stepCounter variable to keep track of which step of the autonomous sequence we are on. Unlike with timers which we can choose to reset after each step or not, with encoders for tankDrive we SHOULD reset the encoder after each step to make the math easier to manage. This is because some encoders have slight variations with how they measure ticks/rotations, this method works with most encoders since we are resetting the encoder value after each step.",
+          b: "This makes the robot turn only 90 degrees instead of 180 degrees.",
+          c: "This only makes the robot go forward for 3 rotations.",
+          d: "This works all the way up to the last step. This code only makes the robot go forward for 6 rotations instead of 8 rotations in the last step."
+        }
       }
       
     ]

@@ -134,11 +134,13 @@ const QuizView = ({ lesson, onAnswer, userAnswer, isCorrect, showResult }) => {
   const [videoToShow, setVideoToShow] = useState(null);
 
   const handleSubmit = () => {
-    if (selectedOption){
-       onAnswer(selectedOption);
+    if (selectedOption) {
+      onAnswer(selectedOption);
 
       if (lesson.optionVideos && lesson.optionVideos[selectedOption]) {
         setVideoToShow(lesson.optionVideos[selectedOption]);
+      } else {
+        setVideoToShow(null);
       }
     }
   };
@@ -161,7 +163,7 @@ const QuizView = ({ lesson, onAnswer, userAnswer, isCorrect, showResult }) => {
         borderColor: selectedOption === optionKey ? "#2196f3" : "#ddd",
       };
     }
-    if (optionKey === lesson.correctAnswer) {
+    if (optionKey === lesson.correctAnswer || optionKey === lesson.correctAnswerTwo) {
       return {
         ...baseStyle,
         backgroundColor: "#d4edda",
@@ -169,7 +171,7 @@ const QuizView = ({ lesson, onAnswer, userAnswer, isCorrect, showResult }) => {
         color: "#155724",
       };
     }
-    if (selectedOption === optionKey && optionKey !== lesson.correctAnswer) {
+    if (selectedOption === optionKey && (optionKey !== lesson.correctAnswer || optionKey !== lesson.correctAnswerTwo)) {
       return {
         ...baseStyle,
         backgroundColor: "#f8d7da",
@@ -180,13 +182,22 @@ const QuizView = ({ lesson, onAnswer, userAnswer, isCorrect, showResult }) => {
     return { ...baseStyle, opacity: 0.6 };
   };
 
+  // return the explanation for a specific option key, fallback to lesson.explanation
+  const getExplanationFor = (opt) => {
+    if (!opt) return lesson.explanation || "";
+    if (lesson.optionExplanations && lesson.optionExplanations[opt]) {
+      return lesson.optionExplanations[opt];
+    }
+    return lesson.explanation || "";
+  };
+
   return (
-    <div style={{ padding: "20px"}}>
+    <div style={{ padding: "20px" }}>
       <h3>{lesson.title}</h3>
-      
-  <ReactMarkdown remarkPlugins={[remarkBreaks]} rehypePlugins={[rehypeRaw, rehypeSanitize]}>
-    {lesson.content}
-  </ReactMarkdown>
+
+      <ReactMarkdown remarkPlugins={[remarkBreaks]} rehypePlugins={[rehypeRaw, rehypeSanitize]}>
+        {lesson.content}
+      </ReactMarkdown>
       <MediaDisplay media={lesson.media} title={lesson.title} />
       <div style={{ marginBottom: "20px" }}>
         <h4>Question:</h4>
@@ -256,7 +267,7 @@ const QuizView = ({ lesson, onAnswer, userAnswer, isCorrect, showResult }) => {
                 borderRadius: "4px",
               }}
             >
-              ✅ Correct! {lesson.explanation}
+              ✅ Correct! {getExplanationFor(selectedOption || userAnswer)}
             </div>
           ) : (
             <div
@@ -267,22 +278,21 @@ const QuizView = ({ lesson, onAnswer, userAnswer, isCorrect, showResult }) => {
                 borderRadius: "4px",
               }}
             >
-              ❌ Incorrect. {lesson.explanation}
+              ❌ Incorrect. {getExplanationFor(selectedOption || userAnswer)}
             </div>
           )}
         </div>
       )}
-      {videoToShow && (
-  <div style={{ marginTop: "25px" }}>
-    <h4>Related Video:</h4>
-    <MediaDisplay media={videoToShow} title="Selected Option Video" />
-  </div>
-)}
 
+      {videoToShow && (
+        <div style={{ marginTop: "25px" }}>
+          <h4>Related Video:</h4>
+          <MediaDisplay media={videoToShow} title="Selected Option Video" />
+        </div>
+      )}
     </div>
   );
 };
-
 /* ============================================================
    DRAG & DROP HELPERS
    ============================================================ */
@@ -650,7 +660,7 @@ const [feedback, setFeedback] = useState("");
     showResult={showResult}
     onAnswer={(answer) => {
       setUserAnswer(answer);
-      const correct = answer === lesson.correctAnswer;
+      const correct = answer === lesson.correctAnswer || answer === lesson.correctAnswerTwo;
       setIsCorrect(correct);
       setShowResult(true);
       // if (correct) updateProgress(tutorial.id, lesson.id);
