@@ -513,9 +513,11 @@ export const tutorialData = [
         explanation:
           "",
         optionVideos: {
-          a: { type: "video", src: "https://www.youtube.com/embed?v=jQjjqEjZK58&themeRefresh=1" },
-          b: { type: "video", src: "https://www.youtube.com/embed?v=hkHHwA-vEyQ" },
-          c: { type: "video", src: "https://www.youtube.com/embed/9mv4nd3P8nk" }
+          a: { type: "video", src: "/src/assets/media/timer-based-auto-a.mp4" },
+          b: { type: "video", src:  "/src/assets/media/timer-based-auto-b-d.mp4" },
+          c: { type: "video", src: "/src/assets/media/timer-based-auto-c.mp4" },
+          d: { type: "video", src:  "/src/assets/media/timer-based-auto-b-d.mp4" },
+
         },
         optionExplanations: {
           a: "This makes the robot turn left instead of right. To turn right with tank drive, the left side motors need to go forward(positive) and the right side motors need to go backward(negative).",
