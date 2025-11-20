@@ -167,21 +167,32 @@ export const tutorialData = [
           "left.set(0);\nright.set(0); }",
         ]
       },
-      
       {
         id: 5,
-        title: "Subsystems & Commands — Quiz",
+        title: "Defining Subsystems in RobotContainer",
+        type: "lecture",
+        content: `In order to use the methods we have defined in our subsystem in our commands, we first need to define the subsystem within the RobotContainer class/file. This is done by creating a public static object of the subsystem class above the RobotContainer constructor method. 
+        
+        The picture below is how you will do this within RobotContainer for a subsystems called buttonSubsystem & joystickSubsystem.`,
+        media: [
+          { type: "image", src: "/src/assets/media/RobotContainer-example.png", alt: "RobotContainer Example" },
+        ],
+      },
+      
+      {
+        id: 6,
+        title: "Subsystems — Quiz",
         type: "quiz",
-        content: "Check understanding of object relationships and command lifecycle.",
-        question: "Which method in a Command is repeatedly called by the scheduler get the robot to do things?",
+        content: "Check understanding of Subsystems.",
+        question: "Where do you typically define speedControllers and other hardware objects for a robot mechanism in a Subsystem?",
         options: {
-          a: "initialize()",
-          b: "execute()",
-          c: "end()",
-          d: "isFinished()"
+          a: "Within the periodic() method",
+          b: "Above the constructor method of the Subsystem",
+          c: "Within the constructor method of the Subsystem",
+          d: "Within the Command that uses the Subsystem"
         },
         correctAnswer: "b",
-        explanation: "The scheduler repeatedly calls execute() until isFinished() returns true."
+        explanation: "You **define** the objects above the constructor so they can be used throughout the Subsystem class and you **initialize** them within the constructor method."
       }
     ]
   },
@@ -528,6 +539,18 @@ export const tutorialData = [
       },
       {
         id: 4,
+        title: "Making an Encoder-Based Autonomous Command Sequence",
+        type: "lecture",
+        content: `As in our previous section on sensors talks about, encoders measure the angular rottion of an axle in ticks. These ticks can be converted into rotations by dividing the number of ticks by the number of ticks per rotation (this number will be different based on the specific encoder model/brand being used). Most will be 4096 or 2048 ticks per rotation but be sure to check your specific encoder's documentation to be sure. Ideally, in your subsystem when you have a method that gets the encoder value, you will convert the ticks into rotations to make it easier to use in autonomous.
+        <br/><br/>
+        
+        \nLike with a time-based autonomous, you will use if/else if/else statements to tell the robot what to at certain encoder points. The reason why you will prefer to use this instead of time-based conditions is that time-based conditions are inconsistent since when the robot is at full battery, it will move significantly faster than when the battery is low, this means you robot will travel further when the battery is full than when it is low making it a logistical nightmare to tune your autonomous to work well from testing throughout a competition.
+        <br/><br/>
+        
+        \nIn addition to having an if statement and the getPosition() method of the encoder you will also want to reset the encoder value at the start of each new movement (ex. after driving forward then turning, reset the encoder before driving forward again). This makes it so you don't have to do as much math to figure out what the encoder value should be at each step of the autonomous sequence. Finally, remember to stop ALL MOTORS within the end() method of the command to make sure it stops moving at the end of autonomous or if the command has to end early for some reason.`,
+      },
+      {
+        id: 5,
         title: "Encoder-Based Autonomous — Quiz",
         type: "quiz",
         content: "Check your understanding of encoders and how to use them in autonomous.",
