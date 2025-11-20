@@ -14,8 +14,7 @@ export const tutorialData = [
         type: "lecture",
         content: `This lesson goes beyond "what" a variable is and explains "why" types matter in FRC robot programming. Variables hold data, types tell Java how to store and operate on that data. You will typicallly use the following types in FRC robot programming: int (whole numbers), double (decimal numbers), boolean (true/false), and String (text). Drag the following snippets to assemble variable declarations for things like a controller id, motor speeds, to see if a sensor senses something, or to have print statements for debugging.`,
         media: [
-          // { type: "image", src: "/src/assets/media/testPath", alt: "test" },
-          { type: "video", src: "https://www.youtube.com/embed/9mv4nd3P8nk", alt: "test2" },
+         
 
         ],
         // codeBlocks: [
@@ -101,7 +100,7 @@ export const tutorialData = [
      ========================= */
   {
     id: 2,
-    title: "Robot Programming Fundamentals - Intro + Subsystems",
+    title: "Intro to FRC Code Structure & Subsystems",
     description:
       "Core structure and idioms of FRC robot software explained with examples you can study and reason about on the website.",
     lessons: [
@@ -202,7 +201,7 @@ export const tutorialData = [
      ========================= */
       {
     id: 3,
-    title: "Robot Programming Fundamentals - Commands",
+    title: "Intro to Commands",
     description:
       "All the 'setup' knowledge students need, presented on-site: what each tool does, how pieces fit together, and conceptual workflows — no installations required.",
     lessons: [
