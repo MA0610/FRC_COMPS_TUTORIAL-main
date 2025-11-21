@@ -298,6 +298,9 @@ export const tutorialData = [
         title: "Using Commands in RobotContainer",
         type: "lecture",
         content: `You have now created commands, however, right now they aren't able to do anything since they are not being executed/activated. In order to do this you will need to go into the RobotContainer class/file and bind the commands to either buttons or joysticks. This is done within the configureBindings() method of the RobotContainer class/file. For buttons you will create a new JoystickButton object (JoystickButton BUTTON_NAME = new JoystickButton(JOYSTICK_OBJECT, BUTTON_ID)) and then you will use the whenPressed() method of the button object to bind the command to the button (BUTTON_NAME.whenPressed(new CommandName());). For joysticks you will use the setDefaultCommand() method of the subsystem object to bind the command to the subsystem (SUBSYSTEM_OBJECT.setDefaultCommand(new CommandName());). This is because these commands require a constant reading of the joystick axis in order to use them in the commands, this means that these commands are always activated when the robot is enabled.`,
+        media: [
+          { type: "image", src: "/src/assets/media/RobotContainer-command-example.png", alt: "RobotContainer Command Example" },
+        ],
       },
       
       
@@ -481,13 +484,13 @@ export const tutorialData = [
         type: "lecture",
         content: `
         \nThe autonomous period in an FRC match lasts for 15 seconds where the robot operates without any driver input. This means that all actions are pre-programmed and rely on previous testing of the autonomous program/script to ensure the robot does what is expected as points during autonomous under most FRC rulesets are worth more than points during the teleoperated portion of the match. 
-
+        <br/><br/>
         
         \nSafety is a big concern during autonomous testing as without driver input the robot may do unexpected actions that could be dangerous for the robot, game field/pieces, or people around the robot. **ALWAYS** make sure to let **EVERYONE AROUND THE ROBOT** know when you are about to test a run of your autonomous script.
-
+        <br/><br/>
 
         \nIn addition to that, you should also start by running the autonomous at less speed than you intend on running it at when you begin testing, this makes it so you see that the actions are being done correctly before you run it at a faster speed. On the topic of full speed, the robot's move fast, when the robot starts at full speed from a stopped position, the robot can lurch forward making it so the robot either doesn't go straight or can actually make your robot fall over if you have robot mechanisms fully extended (ex. arm straight up/robot elevator up high). To combat this you can either use a ramp rate method (CTRE/Talon speed controllers support this) or you can just have your autonomous not run at full speed (80-90% is still plenty fast for autonomous, if you must use 100% to have your auto finish in under 15 seconds, be careful). 
-        
+        <br/><br/>
 
         \nFinally, **ALWAYS** make sure someone is in the driver station application ready to disable the robot if something goes wrong. If the robot doesn't stop once disable is hit you might have to do an emergency stop on the robot by hitting the physical emergency stop button or power button on the robot, be knowledgeable about where these are on your robot before testing autonomous and prioritize your own safety and the safety of those around you over your robot.`
       },
