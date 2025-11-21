@@ -493,13 +493,13 @@ export const tutorialData = [
       },
       {
         id: 2,
-        title: "Making an Time-Based Autonomous Command Sequence",
+        title: "Making a Time-Based Autonomous Command Sequence",
         type: "lecture",
         content: `Altough sensor-based autonomous is way more reliable and consistent (and super easy), time-based autonomous is where most teams start off with since they often don't either have the required sensors nor the knowledge to use them properly. Time-based autonomous works most often by using if statements within a command's execute() method to tell the robot what to do at certain time intervals. You will use a Timer object to keep track of how long the command has been running. You will declare/create this Timer object above the constructor and initialize it within the constructor. 
-        
+        <br/><br/>
         
         \n**A VERY IMPORTANT** step is to reset (TIMER_NAME.reset()) AND start the timer (TIMER_NAME.start()) within the initialize() method, this makes it so the timer starts counting from 0.0 seconds when the command starts running. To retrieve the value from the Timer object you will use the get() method (TIMER_NAME.get()) which returns a double value representing the number of seconds since the timer was started(). You would use an if/else if/else statement structure to tell the robot what to do at certain time intervals. It would look something like this
-        
+        <br/><br/>
         
         \n"if(timer.get() <2.0){ start driving forward } else if(2.0<timer.get() < 4.0){ stop drive forward & move arm out } else { stop arm} }". 
         
@@ -556,7 +556,7 @@ export const tutorialData = [
         question: "In this activity, which set of code will have the robot go forward for 10 rotations of the drivetrain (assume the get function getEncoderValue() converts the encoder value into rotations instead of ticks for you) then turn right 180 degrees (assume turning 90 degrees requires 3 rotations on the left side and -3 rotations on the right side) then go forward again for 8 rotations and then stop?",
         options: {
           a: "int stepCount = 0; \ndrivetrain.tankDrive(1.0,1.0); \nif(stepCount==0 && getEncoderValue()>=10){ \ndrivetrain.tankDrive(0.0,0.0); \ndrivetrain.tankDrive(-1.0, 1.0); \nstepCount++;} \nresetEncoder(); \nif(stepCount==1 && getEncoderValue()>=6){ \ndrivetrain.tankDrive(0.0,0.0); \ndrivetrain.tankDrive(1.0, 1.0); \nstepCount++;} \nresetEncoder(); \nif(stepCount==2 && getEncoderValue()>8){ \ndrivetrain.tankDrive(0.0,0.0);}",
-          b: "int stepCount = 0; \ndrivetrain.tankDrive(1.0,1.0); \nif(stepCount==0 && getEncoderValue()>=10){ \ndrivetrain.tankDrive(0.0,0.0); \ndrivetrain.tankDrive(-1.0, 1.0); \nstepCount++;} \nresetEncoder(); \nif(stepCount==1 && getEncoderValue()>=3){ \ndrivetrain.tankDrive(0.0,0.0); \ndrivetrain.tankDrive(1.0, 1.0); \nstepCount++;} \nresetEncoder(); \nif(stepCount==2 && getEncoderValue()>8){ \ndrivetrain.tankDrive(0.0,0.0);}",
+          b: "int stepCount = 0; \ndrivetrain.tankDrive(1.0,1.0); \nif(stepCount==0 && getEncoderValue()>=10){ \ndrivetrain.tankDrive(0.0,0.0); \ndrivetrain.tankDrive(1.0, -1.0); \nstepCount++;} \nresetEncoder(); \nif(stepCount==1 && getEncoderValue()>=3){ \ndrivetrain.tankDrive(0.0,0.0); \ndrivetrain.tankDrive(1.0, 1.0); \nstepCount++;} \nresetEncoder(); \nif(stepCount==2 && getEncoderValue()>8){ \ndrivetrain.tankDrive(0.0,0.0);}",
           c: "int stepCount = 0; \ndrivetrain.tankDrive(1.0,1.0); \nif(stepCount==0 && getEncoderValue()>=3){ \ndrivetrain.tankDrive(0.0,0.0); \ndrivetrain.tankDrive(-1.0, 1.0); \nstepCount++;} \nresetEncoder(); \nif(stepCount==1 && getEncoderValue()>=6){ \ndrivetrain.tankDrive(0.0,0.0); \ndrivetrain.tankDrive(1.0, 1.0); \nstepCount++;} \nresetEncoder(); \nif(stepCount==2 && getEncoderValue()>8){ \ndrivetrain.tankDrive(0.0,0.0);}",
           d: "int stepCount = 0; \ndrivetrain.tankDrive(1.0,1.0); \nif(stepCount==0 && getEncoderValue()>=10){ \ndrivetrain.tankDrive(0.0,0.0); \ndrivetrain.tankDrive(-1.0, 1.0); \nstepCount++;} \nresetEncoder(); \nif(stepCount==1 && getEncoderValue()>=6){ \ndrivetrain.tankDrive(0.0,0.0); \ndrivetrain.tankDrive(1.0, 1.0); \nstepCount++;} \nresetEncoder(); \nif(stepCount==2 && getEncoderValue()>6){ \ndrivetrain.tankDrive(0.0,0.0);}"
         },
@@ -565,14 +565,16 @@ export const tutorialData = [
         explanation:
           "",
         optionVideos: {
-          a: { type: "video", src: "https://www.youtube.com/embed?v=jQjjqEjZK58&themeRefresh=1" },
-          b: { type: "video", src: "https://www.youtube.com/embed?v=hkHHwA-vEyQ" },
-          c: { type: "video", src: "https://www.youtube.com/embed/9mv4nd3P8nk" }
+          a: { type: "video", src: "/src/assets/media/encoder-based-auto-quiz-a.mp4" },
+          b: { type: "video", src: "/src/assets/media/encoder-based-auto-quiz-b.mp4" },
+          c: { type: "video", src: "/src/assets/media/encoder-based-auto-quiz-c.mp4" },
+          d: { type: "video", src: "/src/assets/media/encoder-based-auto-quiz-d.mp4" }
+
         },
         optionExplanations: {
           a: "This does what is asked, similar to the previous timer-based autonomous quiz option B, this way uses a stepCounter variable to keep track of which step of the autonomous sequence we are on. Unlike with timers which we can choose to reset after each step or not, with encoders for tankDrive we SHOULD reset the encoder after each step to make the math easier to manage. This is because some encoders have slight variations with how they measure ticks/rotations, this method works with most encoders since we are resetting the encoder value after each step.",
           b: "This makes the robot turn only 90 degrees instead of 180 degrees.",
-          c: "This only makes the robot go forward for 3 rotations.",
+          c: "This only makes the robot go forward for 3 rotations. before turning and then going forward again. This would cause the robot to end up hitting the wall on the way back since it doesn't go far enough forward in the first step.",
           d: "This works all the way up to the last step. This code only makes the robot go forward for 6 rotations instead of 8 rotations in the last step."
         }
       }
