@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "include": [
+    "/*"
+  ],
+  "exclude": [
+    "/build/*",
+    "/api/*"
+  ],
+  "fallback": {
+    "entrypoint": "/tutorials"
+  }
+}
