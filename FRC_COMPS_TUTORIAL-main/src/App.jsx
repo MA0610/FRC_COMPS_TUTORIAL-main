@@ -764,6 +764,7 @@ const [feedback, setFeedback] = useState("");
    ============================================================ */
 const App = () => {
   const { user } = useAuth();
+  
   return (
     <Router>
       <div className="App">
