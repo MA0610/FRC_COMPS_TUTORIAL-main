@@ -102,7 +102,7 @@ export const tutorialData = [
     id: 2,
     title: "Intro to FRC Code Structure & Subsystems",
     description:
-      "Core structure and idioms of FRC robot software explained with examples you can study and reason about on the website.",
+      "Intro to the FRC Code Structure & Subsystems: how robot code is organized, the command-based architecture, and writing subsystems to control robot mechanisms.",
     lessons: [
       {
         id: 1,
@@ -203,7 +203,7 @@ export const tutorialData = [
     id: 3,
     title: "Intro to Commands",
     description:
-      "All the 'setup' knowledge students need, presented on-site: what each tool does, how pieces fit together, and conceptual workflows — no installations required.",
+      "Intro to Commands: how to write commands to make your robot do things using the methods defined in your subsystems.",
     lessons: [
   {
         id: 1,
