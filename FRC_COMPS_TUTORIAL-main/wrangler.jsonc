@@ -2,6 +2,6 @@
   "name": "frc-tutorial-website",
   "compatibility_date": "2025-12-02",
   "assets": {
-    "directory": ".\FRC_COMPS_TUTORIAL-main\src\assets\media"
+    "directory": "./FRC_COMPS_TUTORIAL-main/src/assets/media"
   }
 }
