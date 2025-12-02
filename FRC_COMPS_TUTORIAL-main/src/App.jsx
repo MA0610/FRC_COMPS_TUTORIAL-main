@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { HashRouter as Router, Routes, Route, useParams, useNavigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useParams, useNavigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import Login from "./components/Auth/Login";
 import Header from "./components/Common/Header";
